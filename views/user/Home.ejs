@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>AV shopps</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap JavaScript and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Link to your custom CSS (style.css) -->
+
+    <!-- Link to Responsive CSS -->
+    <link rel="stylesheet" href="stylesheets/responsive.css">
+
+    <!-- Favicon (No change for local image) -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+
+    <!-- Link to jQuery Custom Scrollbar CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Link to Font Awesome (older version) via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Link to Font Awesome (newer version) via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Link to Owl Carousel CSS via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- Link to Fancybox CSS via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+</head>
+
+<body class="main-layout ">
+    <%- include('navbar',userExist) %>
+
+        <section class="slider_section">
+            <div id="myCarousel" class="carousel slide banner-main" data-ride="carousel">
+                <div class="carousel-inner">
+                    <% banner.forEach(function(item){ %>
+                        <div class="carousel-item <%= item.Active %>">
+                            <img class="first-slide" src="<%= item.bannerImage %>" alt="First slide">
+                            <div class="container">
+                                <div class="carousel-caption relative">
+                                    <span>
+                                        <%= item.Heading %>
+                                    </span>
+                                    <h1>
+                                        <%= item.Discount %>
+                                    </h1>
+                                    <p>
+                                        <%= item.Description %>
+                                    </p>
+                                    <a class="buynow" href="/shop">Buy Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                    <i class='fa fa-angle-left'></i>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                    <i class='fa fa-angle-right'></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-5 col-lg-5 col-md-5 co-sm-l2">
+                        <div class="about_img">
+                            <figure><img src="<%= AboutUs?.bannerImage %>" alt="img" /></figure>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-7 col-md-7 co-sm-l2">
+                        <div class="about_box">
+                            <h3>About Us</h3>
+                            <span>
+                                <%= AboutUs?.Heading %>
+                            </span>
+                            <p>
+                                <%= AboutUs?.Description %>
+                            </p>
+                        </div>
+                        <a href="/shop" type="button" class="btn btn-primary mt-5" style="float: right;">Products</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="brand" id="brand">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage">
+                            <h2>Our Brand</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="margin-left: 10%;">
+                    <% logo?.BrandDetails?.forEach((item)=>{ %>
+                        <img src="<%= item?.Image %>" style="width: 180px;align-items: center;" alt="">
+                        <% }) %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="clients">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage">
+                            <h2>what say our clients</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clients_red">
+            <div class="container">
+                <div id="testimonial_slider" class="carousel slide" data-ride="carousel">
+                    <ul class="carousel-indicators">
+                        <li data-target="#testimonial_slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#testimonial_slider" data-slide-to="1" class=""></li>
+                        <li data-target="#testimonial_slider" data-slide-to="2" class=""></li>
+                    </ul>
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <div class="testomonial_section">
+                                <div class="full center">
+                                </div>
+                                <div class="full testimonial_cont text_align_center cross_layout"
+                                    style="margin-left: 0%;">
+                                    <div class="cross_inner">
+                                        <h3>Due markes<br><strong class="ornage_color">Rental</strong>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                            do eiusmod tempor incididunt ut labore et dolore magna
+                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Duis aute irure dolor in reprehenderit in voluptate velit
+                                            ess</i>
+                                        </p>
+                                        <div class="full text_align_center margin_top_30">
+                                            <img src="icon/testimonial_qoute.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item active">
+
+                            <div class="testomonial_section">
+                                <div class="full center">
+                                </div>
+                                <div class="full testimonial_cont text_align_center cross_layout"
+                                    style="margin-left: 0% !important;">
+                                    <div class="cross_inner">
+                                        <h3>Due markes<br><strong class="ornage_color">Rental</strong>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                            do eiusmod tempor incididunt ut labore et dolore magna
+                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Duis aute irure dolor in reprehenderit in voluptate velit
+                                            ess</i>
+                                        </p>
+                                        <div class="full text_align_center margin_top_30">
+                                            <img src="icon/testimonial_qoute.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="carousel-item" style="margin-left: 0% !important;">
+
+                            <div class="testomonial_section">
+                                <div class="full center">
+                                </div>
+                                <div class="ful testimonial_cont text_align_center cross_layout">
+                                    <div class="cross_inner">
+                                        <h3>Due markes<br><strong class="ornage_color">Rental</strong>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                            do eiusmod tempor incididunt ut labore et dolore magna
+                                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Duis aute irure dolor in reprehenderit in voluptate velit
+                                            ess</i>
+                                        </p>
+                                        <div class="full text_align_center margin_top_30">
+                                            <img src="icon/testimonial_qoute.png">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage">
+                            <h2>Contact us</h2>
+                        </div>
+                        <form class="main_form" id="contactForm" method="post" action="/contactFormSubmit">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <input class="form-control" placeholder="Your name" required
+                                        style="border: #ff0000 solid 2px;" type="text" name="Name">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <input class="form-control" placeholder="Email" style="border: #ff0000 solid 2px;"
+                                        type="text" name="Email" required>
+                                </div>
+                                <div class=" col-md-12">
+                                    <input class="form-control" placeholder="Phone" style="border: #ff0000 solid 2px;"
+                                        type="text" name="Phone" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="textarea" name="message" required placeholder="Message"></textarea>
+                                </div>
+                                <div class=" col-md-12">
+                                    <button class="send" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div id="contact" class="footer">
+                <div class="container">
+                    <div class="row pdn-top-30">
+                        <div class="col-md-12 ">
+                            <div class="footer-box">
+                                <div class="headinga">
+                                    <h3>AV shopps</h3>
+                                    <span>Brototype edthuruthukaran building maradu, kochi 680031</span>
+                                    <p>(+91) 6282995964
+                                        <br>alannixon2520@gmail.com
+                                    </p>
+                                </div>
+                                <ul class="location_icon">
+                                    <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li> <a href="#"><i class="fa fa-instagram"></i></a></li>
+
+                                </ul>
+                                <div class="menu-bottom">
+                                    <ul class="link">
+                                        <li> <a href="#">Home</a></li>
+                                        <li> <a href="#">About</a></li>
+
+                                        <li> <a href="#brand">Brand </a></li>
+                                        <li> <a href="#">Specials </a></li>
+                                        <li> <a href="#"> Contact us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+
+
+
+
+</body>
+
+</html>

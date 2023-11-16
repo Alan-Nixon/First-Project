@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV shopps</title>
+     <!-- CSS Resources -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ 
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+</head>
+
+<body>
+    <%- include('navbar',userExist) %>
+        <% if(OrdersHistory.length===0) { %>
+
+            <!-- cart Empty -->
+            <div class="container-fluid  mt-100">
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body cart">
+                                <div class="col-sm-12 empty-cart-cls text-center">
+                                    <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
+                                        class="img-fluid mb-4 mr-3">
+                                    <h3><strong>Your Order's is Empty</strong></h3>
+                                    <h4>Add something to make me happy :)</h4>
+                                    <a href="/shop" class="btn btn-warning cart-btn-transform m-3"
+                                        data-abc="true">continue
+                                        shopping</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <style>
+                @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+                body {
+                    background-color: #eee;
+                    font-family: 'Calibri', sans-serif !important;
+                }
+
+                .mt-100 {
+                    margin-top: 100px;
+
+                }
+
+
+                .card {
+                    margin-bottom: 30px;
+                    border: 0;
+                    -webkit-transition: all .3s ease;
+                    transition: all .3s ease;
+                    letter-spacing: .5px;
+                    border-radius: 8px;
+                    -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+                    box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+                }
+
+                .card .card-header {
+                    background-color: #fff;
+                    border-bottom: none;
+                    padding: 24px;
+                    border-bottom: 1px solid #f6f7fb;
+                    border-top-left-radius: 8px;
+                    border-top-right-radius: 8px;
+                }
+
+                .card-header:first-child {
+                    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+                }
+
+
+
+                .card .card-body {
+                    padding: 30px;
+                    background-color: transparent;
+                }
+
+                .btn-primary,
+                .btn-primary.disabled,
+                .btn-primary:disabled {
+                    background-color: #4466f2 !important;
+                    border-color: #4466f2 !important;
+                }
+            </style>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <% } else { %>
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane  fade  active show" id="orders" role="tabpanel"
+                                    aria-labelledby="orders-tab">
+                                    <h1 class="font-weight-bold mt-0 mb-4">My Orders</h1>
+                                    <% OrdersHistory.forEach((item)=>{ %>
+                                        <div class="bg-white card mb-4 order-list shadow-sm" style="cursor: pointer;" onclick="location.href = '/orders?id=<%= item._id %>'">
+                                            <div class="gold-members p-4">
+                                                <a href="#">
+                                                </a>
+                                                <div class="media">
+                                                    <a href="#">
+                                                        <img class="mr-4" src="/img/orderCoverImage.jpeg"
+                                                            alt="Generic placeholder image" style="width: 300px;">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            <span class="float-right text-info">Ordere'd in <%=
+                                                                    item.OrderDate %>
+                                                                    <i
+                                                                        class="icofont-check-circled text-success"></i></span>
+                                                        </a>
+                                                        <h6 class="mb-2">
+                                                            <a href="#"></a>
+                                                            <a href="#" class="text-black">AV shopps</a>
+                                                        </h6>
+                                                        <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>
+                                                            <strong><b>
+                                                                    <%= item.FullName %>
+                                                                </b></strong> ordered <strong><b>
+                                                                    <%= item.ProdNames %>
+                                                                </b></strong>
+                                                            quantity's are <strong><b>
+                                                                    <%= item.Quantity %>
+                                                                </b></strong>
+                                                        </p>
+                                                        <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #
+                                                            <%= item._id %> <i class="icofont-clock-time ml-2"></i> Mon,
+                                                                Nov
+                                                                12, 6:26 PM
+                                                        </p>
+                                                        <p class="text-dark">Order status : <strong><b>
+                                                                    <%= item.Status %>
+                                                                </b></strong>
+                                                        </p>
+                                                        <p class="text-dark">Order Notes : <%= item.Notes %>
+                                                        </p>
+                                                        <hr>
+                                                        <% if (item.Canceled != true) { %>
+                                                        <div class="float-right">
+                                                            <a class="btn btn-sm btn-outline-primary p-2 "
+                                                                style="width: 90px;" href="#"><i
+                                                                    class="icofont-headphone-alt"></i> HELP</a>
+                                                            <a class="btn btn-sm btn-danger p-2"
+                                                                href="/cancelOrder?id=<%= item._id %>"><i
+                                                                    class="icofont-refresh"></i>
+                                                                Cancel Order</a>
+                                                        </div>
+                                                        <% } else { %>
+                                                        <div class="float-right" style="color: red;">
+
+                                                            Product canceled
+                                                            </div>
+                                                            <% } %>
+                                                        <p class="mb-0 text-black text-danger pt-2"><span
+                                                                class="text-black font-weight-bold"> Total :</span>
+                                                            <strong><b>
+                                                                    <%= item.TotalPrice %>
+                                                                </b></strong>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <% }) %>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+
+                </div>
+
+</body>
+
+</html>

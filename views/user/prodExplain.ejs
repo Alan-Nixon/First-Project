@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV shopps</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/zoomExplain.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+
+        <%- include('navbar',{userExist}) %>
+
+
+
+    </header>
+
+
+
+
+    <div class="row">
+
+        <div class="col-sm-5 mt-1 " style="border: 1px solid black;">
+            <ul id="glasscase" class="gc-start">
+                <li><img src="/productImages/<%= product.CoverImage %>" alt="Text" />
+                </li>
+                <% product.Images.forEach((item)=>{ %>
+                    <li><img src="/productImages/<%= item %>" alt="Text" /></li>
+                    <% }) %>
+            </ul>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="detials">
+                <div class="heading">
+                    <h4 class="headText">
+                        <%= product.Name %>
+                    </h4>
+                </div>
+                <p class="Description">
+                    <%= product.Description %>
+                </p>
+                <h5 class="Price"> <b>
+                        <%= product.Price %>
+                    </b> /- ₹ INR</h5>
+                <p style="color: red;">
+                    <input type="text" value="<%= product.Stock %>" hidden id="StockCheck">
+                    <% if (product.Stock===0) { %>
+                        OUT OF STOCK
+                        <% } else{ %>
+                            only <%= product.Stock %> Remaning stocks
+
+                                <% } %>
+
+                </p><br>
+                <p>
+                    <%= product.Specs %>
+                </p><br>
+                <p style="font-size: larger;"><b>More detials</b></p>
+                <ul>
+
+                    <li>
+                        <%= product.Gen %>
+                    </li>
+                    <li>
+                        <%= product.Genre %>
+                    </li>
+                </ul><br>
+                <button class="btn btn-success" onclick="addToCart('<%= product._id %>')">ADD TO CART</button>
+                <button class="btn btn-warning" onclick="BuyNow('<%= product._id %>')">BUY
+                    NOW</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row otherProducts" style="height: auto; margin-top: 6%;">
+        <div class="col-sm-12 HeadingOther" style="background-color: yellow;">
+            <h1 class="headText">Related Products</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="container mt-3">
+                <div class="card" style="width:260px;height: 470px;">
+                    <img class="card-img-top" src="/productImages/<%= product.CoverImage %>" alt="Card image"
+                        style="width:98%;height: 45%;cursor: pointer;">
+                    <div class="card-body">
+                        <div class="cardUpper" style="cursor: pointer;">
+                            <h4 class="card-title">
+                                <%= product.Name %>
+                            </h4>
+                            <p class="card-text" style="width: 200px;">
+                                <%= product.Description %>
+                            </p><br>
+                        </div>
+                        <a href="#" class="btn btn-primary">Add to cart</a>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+        </div>
+    </div>
+    <input type="text" value="<%= StockproductExplain %>" id="StockproductExplain" hidden>
+    <script type="text/javascript">
+        let StockproductExplain = document.getElementById('StockproductExplain')
+        if (StockproductExplain.value === 'true') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'failed add to cart !',
+                text: 'product is out of stock, come back later',
+            });
+        }
+        $(document).ready(function () {
+            $('#glasscase').glassCase({ 'thumbsPosition': 'bottom', 'widthDisplay': 560 });
+        });
+
+        function BuyNow(id) {
+            const StockCheck = document.getElementById('StockCheck')
+            if (StockCheck.value === '0') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'failed add to cart !',
+                    text: 'product is out of stock, come back later',
+                });
+            } else {
+                location.href = '/buynow?prodId=' + id
+
+            }
+        }
+
+        function addToCart(prodId) {
+            fetch(`/addToCart?prodId=${prodId}`).then((response) => {
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'added to cart !',
+                        text: 'product added to cart successfully.',
+                    });
+                } else if (response.status === 208) {
+                    Swal.fire({
+                        title: "Please Login",
+                        text: "Please login to add this product.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Login",
+                        cancelButtonText: "Cancel",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = "/login";
+                        }
+                    });
+
+
+                } else if (response.status === 207) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'failed add to cart !',
+                        text: 'product is out of stock, come back later',
+                    });
+                }
+            })
+        }
+    </script>
+
+
+    <script src="/javascripts/zoomExplain.js"></script>
+</body>
+
+</html>

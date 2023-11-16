@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AV admin</title>
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <!-- Template CSS -->
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <%-include('sideBar',{dashboard:true}) %>
+                <!-- End Sidebar scroll-->
+        </aside>
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <%- include('navbar',{dashboard:true}) %>
+                <!--  Header End -->
+
+                <section class="content-main ">
+                    <div class="content-header mt-5">
+                        <div>
+                            <h2 class="content-title card-title">Dashboard </h2>
+                            <p>Whole data about your business here</p>
+                        </div>
+                        <div>
+                            <a href="#" onclick="downloadTextPdf()" class="btn btn-primary"><i
+                                    class="text-muted material-icons md-post_add"></i>Create
+                                report</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card card-body mb-4">
+                                <article class="icontext">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                            class="text-primary material-icons md-monetization_on"></i></span>
+                                    <div class="text">
+                                        <h6 class="mb-1 card-title">Revenue</h6>
+                                        <span style="color: green;">₹<%= Revenue %></span>
+                                        <span class="text-sm">
+                                            Shipping fees are not included
+                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card card-body mb-4">
+                                <article class="icontext">
+                                    <span class="icon icon-sm rounded-circle bg-success-light"><i
+                                            class="text-success material-icons md-local_shipping"></i></span>
+                                    <div class="text">
+                                        <h6 class="mb-1 card-title">Orders</h6> <span style="color: blue;">
+                                            <%= Orders %>
+                                        </span>
+                                        <span class="text-sm">
+                                            Excluding orders in transit
+                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card card-body mb-4">
+                                <article class="icontext">
+                                    <span class="icon icon-sm rounded-circle bg-warning-light"><i
+                                            class="text-warning material-icons md-qr_code"></i></span>
+                                    <div class="text">
+                                        <h6 class="mb-1 card-title">Daily Earning</h6> <span
+                                            style="color: yellowgreen;">₹<%= DailyEarning %></span>
+                                        <span class="text-sm">
+                                            In 19 Categories
+                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="card card-body mb-4">
+                                <article class="icontext">
+                                    <span class="icon icon-sm rounded-circle bg-info-light"><i
+                                            class="text-info material-icons md-shopping_basket"></i></span>
+                                    <div class="text">
+                                        <h6 class="mb-1 card-title">Monthly Earning</h6> <span
+                                            style="color: yellowgreen;">₹<%= MonthlyEarning %></span>
+                                        <span class="text-sm">
+                                            Based in your local time.
+                                        </span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- row -->
+                    </div>
+                </section>
+
+
+                <div class="container-fluid" id="weeklyChart">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h3> Weekly Orders graph<button onclick="downloadWeeklyReport()"
+                                    style="margin-left: 55%;margin-top: -9%;" class="btn btn-primary">Download
+                                    PDF</button></h3>
+                            <br> <br>
+                            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                            <!-- /////////////////////////// chart //////////////////////////////// -->
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card mb-4">
+                                <article class="card-body">
+                                    <h5 class="card-title">Marketing Chanel</h5>
+                                    <span class="text-muted font-xs">Facebook</span>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
+                                    </div>
+                                    <span class="text-muted font-xs">Instagram</span>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 65%">65% </div>
+                                    </div>
+                                    <span class="text-muted font-xs">Google</span>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 51%"> 51% </div>
+                                    </div>
+                                    <span class="text-muted font-xs">Twitter</span>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                                    </div>
+                                    <span class="text-muted font-xs">Other</span>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" id="capture-div">
+                    <div class="col-sm-10" style="margin-left: 5%;">
+                        <label for="">Select a Date</label><br>
+                        <input type="date" class="form-control" id="dateInput" name="dateInput"
+                            onchange="validateSendData(this)">
+
+                        <div class="Heading" style="text-align: center;margin-top: 5%;">
+                            <h2>Sales & Report</h2>
+                        </div>
+                        <table class="mt-3">
+                            <tr>
+                                <td>
+                                    <h3><strong><b>Revenue </b></strong></h3>
+                                </td>
+                                <td>
+                                    <h4 class="tableData">₹<%= Revenue %>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3><strong><b>Orders </b></strong></h3>
+                                </td>
+                                <td>
+                                    <h4>
+                                        <%= Orders %>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3><strong><b>Daily Earning </b></strong></h3>
+                                </td>
+                                <td>
+                                    <h4>₹<%= DailyEarning %>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3><strong><b>Monthly Earning </b></strong></h3>
+                                </td>
+                                <td>
+                                    <h4>₹<%= MonthlyEarning %>
+                                    </h4>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+    <script>
+        function validateSendData(elem) {
+            alert(elem.value)
+        }
+    </script>
+    <style>
+        .tableData {
+            margin-left: 5%;
+            letter-spacing: 1px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #capture-div {
+            margin-bottom: 5%;
+        }
+    </style>
+
+
+    <div id="graph" data-mydata='<%= JSON.stringify(YaxisGraph) %>'></div>
+    <div id="daysgraph" data-mydata='<%= JSON.stringify(XaxisGraph) %>'></div>
+
+    <script>
+        const xValues = JSON.parse(document.getElementById('daysgraph').getAttribute('data-mydata'));
+        const yValues = JSON.parse(document.getElementById('graph').getAttribute('data-mydata'));
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{ ticks: { min: 0, max: 20 } }],
+                }
+            }
+        });
+        function downloadWeeklyReport() {
+            let doc = new window.jspdf.jsPDF();
+            let canvas = document.getElementById('myChart');
+            imageData = canvas.toDataURL('image/png');
+            doc.addImage(imageData, 'PNG', 10, 10, 190, 100);
+            doc.save('WeeklyChart.pdf');
+        }
+
+        function downloadTextPdf() {
+            const divToCapture = document.getElementById('capture-div');
+
+            html2canvas(divToCapture).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new window.jspdf.jsPDF({
+                    orientation: 'p', // Portrait orientation
+                    unit: 'mm',
+                    format: [300, 200], // A4 page size
+                });
+
+                const width = pdf.internal.pageSize.getWidth();
+                const height = (canvas.height * width) / canvas.width;
+
+                // Add the captured image to the PDF
+                pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+
+                // Get the image data for the graph (assuming 'myChart' is an HTML canvas)
+                let graphData = document.getElementById('myChart').toDataURL('image/png');
+
+                // Add the graph image to the PDF after the table
+                pdf.addImage(graphData, 'PNG', 10, height + 10, 190, 100);
+
+                // Save the PDF with both table and graph
+                pdf.save('combined-content.pdf');
+            });
+        }
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.2.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/sidebarmenu.js"></script>
+    <script src="../assets/js/app.min.js"></script>
+    <script src="assets/js/vendors/chart.js"></script>
+
+    <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+
+
+
+</body>
+
+</html>

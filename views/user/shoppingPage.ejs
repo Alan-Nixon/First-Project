@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>AV shopps</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="shopcss/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="shopcss/slick.css" />
+    <link type="text/css" rel="stylesheet" href="shopcss/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="shopcss/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="shopcss/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="shopcss/style.css" />
+
+
+</head>
+
+<body>
+    <!-- HEADER -->
+    <%- include('conflictNavbar',userExist) %>
+
+            <!-- NAVIGATION -->
+            <nav id="navigation">
+                <!-- container -->
+                <div class="container">
+                    <!-- responsive-nav -->
+                    <div id="responsive-nav">
+                        <!-- NAV -->
+                        <ul class="main-nav nav navbar-nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#">Hot Deals</a></li>
+                            <li><a href="#">Brands</a></li>
+                            <li><a href="#">Laptops</a></li>
+                            <li><a href="#">processer's</a></li>
+                        </ul>
+                        <!-- /NAV -->
+                    </div>
+                    <!-- /responsive-nav -->
+                </div>
+                <!-- /container -->
+            </nav>
+            <!-- /NAVIGATION -->
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <!-- shop -->
+                        <% shopCollections.forEach((item)=>{ %>
+                            <div class="col-md-4 col-xs-6" onclick="window.location.href = '#<%= item.sectionId %>'"
+                                style="cursor: pointer;">
+                                <div class="shop">
+                                    <div class="shop-img">
+                                        <img src="<%= item.Image %>" alt="">
+                                    </div>
+                                    <div class="shop-body">
+                                        <h3>
+                                            <%= item.CategoryName %><br>Collection's
+                                        </h3>
+                                        <a href="#<%= item.sectionId %>" class="cta-btn">Shop now <i
+                                                class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+
+                                <!-- /shop -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+
+                        <!-- section title -->
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h3 class="title">New Products</h3>
+                                <div class="section-nav">
+                                    <ul class="section-tab-nav tab-nav">
+                                        <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
+                                        <li><a data-toggle="tab" href="#tab1">Processer's</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /section title -->
+
+                        <!-- Products tab & slick -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="products-tabs">
+                                    <!-- tab -->
+                                    <div id="tab1" class="tab-pane active">
+                                        <div class="products-slick" data-nav="#slick-nav-1">
+                                            <!-- product -->
+                                            <% newProductShop.forEach((item,index)=>{ %>
+                                                    <div class="product">
+                                                        <div class="product-img" onclick="prodExplain('<%= item._id %>')"
+                                                            style="cursor: pointer;">
+                                                            <div class="">
+                                                            <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                                        </div>
+                                                            <div class="product-label">
+                                                                <% if(item.saleOffer) { %>
+                                                                    <span class="sale">-<%= item.Offer %>%</span>
+                                                                    <% } %>
+                                                                      
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-body">
+                                                            <p class="product-category">
+                                                                <%= item.Genre %>
+                                                            </p>
+                                                            <h3 class="product-name"><a href="#">
+                                                                    <%= item.Name %>
+                                                                </a></h3>
+                                                            <h4 class="product-price">
+                                                               <% if (item.Offer === 0) { %>
+                                                                <%= item.Price %> <del class="product-old-price">
+                                                                    <%= item.Price %>
+                                                                <% } else { %>
+                                                                    <%= (item.Price * item.Offer)/100 %> <del class="product-old-price">
+                                                                        <%= item.Price %>
+                                                                    </del>
+                                                                    <% } %>
+                                                            </h4>
+                                                            <div class="product-rating">
+                                                                <% for(let i=0;i<item.Rating;i++ ){ %>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="product-btns">
+                                                                <button class="add-to-wishlist"
+                                                                    onclick="addToWishList('<%= item.id %>','top')"><i
+                                                                        class="fa fa-heart-o"
+                                                                        id="addToWishList<%= item.id %>top"></i><span
+                                                                        class="tooltipp">add to
+                                                                        wishlist</span></button>
+                                                                <button class="add-to-compare"><i
+                                                                        class="fa fa-exchange"></i><span
+                                                                        class="tooltipp">add to
+                                                                        compare</span></button>
+                                                                <button class="quick-view"><i class="fa fa-eye"></i><span
+                                                                        class="tooltipp">quick view</span></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="add-to-cart">
+                                                            <button class="add-to-cart-btn"
+                                                                onclick="addToCart('<%= item.id %>') "><i
+                                                                    class="fa fa-shopping-cart"></i>
+                                                                add
+                                                                to cart</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /product -->
+                                                    <% }) %>
+
+                                                    <!-- /product -->
+                                        </div>
+                                        <div id="slick-nav-1" class="products-slick-nav"></div>
+                                    </div>
+                                    <!-- /tab -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Products tab & slick -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+            <!-- HOT DEAL SECTION -->
+            <div id="hot-deal" class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hot-deal">
+                                <ul class="hot-deal-countdown">
+                                    <li>
+                                        <div>
+                                            <h3>02</h3>
+                                            <span>Days</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <h3>10</h3>
+                                            <span>Hours</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <h3>34</h3>
+                                            <span>Mins</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <h3>60</h3>
+                                            <span>Secs</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <h2 class="text-uppercase">hot deal this week</h2>
+                                <p>New Collection Up to 50% OFF</p>
+                                <a class="primary-btn cta-btn" href="#">Shop now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /HOT DEAL SECTION -->
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+
+                        <!-- section title -->
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h3 class="title">Top selling</h3>
+                                <div class="section-nav">
+                                    <ul class="section-tab-nav tab-nav">
+                                        <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+                                        <li><a data-toggle="tab" href="#tab2">Processer's</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /section title -->
+
+                        <!-- Products tab & slick -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="products-tabs">
+                                    <!-- tab -->
+                                    <div id="tab2" class="tab-pane fade in active">
+                                        <div class="products-slick" data-nav="#slick-nav-2">
+                                            <!-- product -->
+                                            <!-- product -->
+                                            <% TopRating.forEach((item)=>{ %>
+                                                <div class="product">
+                                                    <div class="product-img" onclick="prodExplain('<%= item._id %>')"
+                                                        style="cursor: pointer;">
+                                                        <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                                        <div class="product-label">
+                                                            <% if(item.saleOffer) { %>
+                                                                <span class="sale">-<%= item.Offer %>%</span>
+                                                                <% } %>
+                                                                  
+                                                                
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category">
+                                                            <%= item.Genre %>
+                                                        </p>
+                                                        <h3 class="product-name"><a href="#">
+                                                                <%= item.Name %>
+                                                            </a></h3>
+                                                        <h4 class="product-price">
+                                                            <% if (item.Offer === 0) { %>
+                                                                <%= item.Price %> <del class="product-old-price">
+                                                                    <%= item.Price %>
+                                                                <% } else { %>
+                                                                    <%= (item.Price * item.Offer)/100 %> <del class="product-old-price">
+                                                                        <%= item.Price %>
+                                                                    </del>
+                                                                    <% } %>
+                                                        </h4>
+                                                        <div class="product-rating">
+                                                            <% for(let i=0;i<item.Rating;i++ ){ %>
+                                                                <i class="fa fa-star"></i>
+                                                                <% } %>
+                                                        </div>
+                                                        <div class="product-btns">
+                                                            <button class="add-to-wishlist"
+                                                                onclick="addToWishList('<%= item.id %>','top')"><i
+                                                                    class="fa fa-heart-o"
+                                                                    id="addToWishList<%= item.id %>top"></i><span
+                                                                    class="tooltipp">add to
+                                                                    wishlist</span></button>
+                                                            <button class="add-to-compare"><i
+                                                                    class="fa fa-exchange"></i><span
+                                                                    class="tooltipp">add to
+                                                                    compare</span></button>
+                                                            <button class="quick-view"><i class="fa fa-eye"></i><span
+                                                                    class="tooltipp">quick view</span></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-to-cart">
+                                                        <button class="add-to-cart-btn"
+                                                            onclick="addToCart('<%= item.id %>') "><i
+                                                                class="fa fa-shopping-cart"></i>
+                                                            add
+                                                            to cart</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /product -->
+                                                <% }) %>
+
+                                        </div>
+                                        <div id="slick-nav-2" class="products-slick-nav"></div>
+                                    </div>
+                                    <!-- /tab -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Products tab & slick -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+
+                        <!-- section title -->
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h3 class="title">Laptop's</h3>
+                                <div class="section-nav">
+                                    <ul class="section-tab-nav tab-nav">
+                                        <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+                                        <li><a data-toggle="tab" href="#tab2">Processer's</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /section title -->
+
+                        <!-- Products tab & slick -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="products-tabs">
+                                    <!-- tab -->
+                                    <div id="tab2" class="tab-pane fade in active">
+                                        <div class="products-slick" data-nav="#slick-nav-2">
+                                            <!-- product -->
+                                            <!-- product -->
+                                            <% LAPTOP.forEach((item)=>{ %>
+                                                <div class="product">
+                                                    <div class="product-img" onclick="prodExplain('<%= item.id %>')"
+                                                        style="cursor: pointer;">
+                                                        <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                                        <div class="product-label">
+                                                            <% if(item.Offer) { %>
+                                                                <span class="sale">-<%= item.Offer %>%</span>
+                                                                <% } %>
+                                                                  
+                                                                
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category">
+                                                            <%= item.Genre %>
+                                                        </p>
+                                                        <h3 class="product-name"><a href="#">
+                                                                <%= item.Name %>
+                                                            </a></h3>
+                                                        <h4 class="product-price">
+                                                            <% if (item.Offer === 0) { %>
+                                                                <%= item.Price %> <del class="product-old-price">
+                                                                    <%= item.Price %>
+                                                                <% } else { %>
+                                                                    <%= (item.Price * item.Offer)/100 %> <del class="product-old-price">
+                                                                        <%= item.Price %>
+                                                                    </del>
+                                                                    <% } %>
+                                                        </h4>
+                                                        <div class="product-rating">
+                                                            <% for(let i=0;i<item.Rating;i++ ){ %>
+                                                                <i class="fa fa-star"></i>
+                                                                <% } %>
+                                                        </div>
+                                                        <div class="product-btns">
+                                                            <button class="add-to-wishlist"
+                                                                onclick="addToWishList('<%= item.id %>','lap')"><i
+                                                                    class="fa fa-heart-o"
+                                                                    id="addToWishList<%= item.id %>lap"></i><span
+                                                                    class="tooltipp">add to
+                                                                    wishlist</span></button>
+                                                            <button class="add-to-compare"><i
+                                                                    class="fa fa-exchange"></i><span
+                                                                    class="tooltipp">add to
+                                                                    compare</span></button>
+                                                            <button class="quick-view"><i class="fa fa-eye"></i><span
+                                                                    class="tooltipp">quick view</span></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-to-cart">
+                                                        <button class="add-to-cart-btn"
+                                                            onclick="addToCart('<%= item.id %>')"><i
+                                                                class="fa fa-shopping-cart"></i>
+                                                            add
+                                                            to cart</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /product -->
+                                                <% }) %>
+
+                                        </div>
+                                        <div id="slick-nav-2" class="products-slick-nav"></div>
+                                    </div>
+                                    <!-- /tab -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Products tab & slick -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+
+                        <!-- section title -->
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <h3 class="title">Processer's</h3>
+                                <div class="section-nav">
+                                    <ul class="section-tab-nav tab-nav">
+                                        <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+                                        <li><a data-toggle="tab" href="#tab2">Processer's</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /section title -->
+
+                        <!-- Products tab & slick -->
+                        <div class="col-md-12" id="processerSection">
+                            <div class="row">
+                                <div class="products-tabs">
+                                    <!-- tab -->
+                                    <div id="tab2" class="tab-pane fade in active">
+                                        <div class="products-slick" data-nav="#slick-nav-2">
+                                            <!-- product -->
+                                            <!-- product -->
+                                            <% PROCESSER.forEach((item)=>{ %>
+                                                <div class="product">
+                                                    <div class="product-img" onclick="prodExplain('<%= item.id %>')"
+                                                        style="cursor: pointer;">
+                                                        <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                                        <div class="product-label">
+                                                            <% if(item.Offer) { %>
+                                                                <span class="sale">-<%= item.Offer %>%</span>
+                                                                <% } %>
+                                                                  
+                                                                
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-body">
+                                                        <p class="product-category">
+                                                            <%= item.Genre %>
+                                                        </p>
+                                                        <h3 class="product-name"><a href="#">
+                                                                <%= item.Name %>
+                                                            </a></h3>
+                                                        <h4 class="product-price">
+                                                            <% if (item.Offer === 0) { %>
+                                                                <%= item.Price %> <del class="product-old-price">
+                                                                    <%= item.Price %>
+                                                                <% } else { %>
+                                                                    <%= (item.Price * item.Offer)/100 %> <del class="product-old-price">
+                                                                        <%= item.Price %>
+                                                                    </del>
+                                                                    <% } %>
+                                                        </h4>
+                                                        <div class="product-rating">
+                                                            <% for(let i=0;i<item.Rating;i++ ){ %>
+                                                                <i class="fa fa-star"></i>
+                                                                <% } %>
+                                                        </div>
+                                                        <div class="product-btns">
+                                                            <button class="add-to-wishlist"
+                                                                onclick="addToWishList('<%= item.id %>','lap')"><i
+                                                                    class="fa fa-heart-o"
+                                                                    id="addToWishList<%= item.id %>lap"></i><span
+                                                                    class="tooltipp">add to
+                                                                    wishlist</span></button>
+                                                            <button class="add-to-compare"><i
+                                                                    class="fa fa-exchange"></i><span
+                                                                    class="tooltipp">add to
+                                                                    compare</span></button>
+                                                            <button class="quick-view"><i class="fa fa-eye"></i><span
+                                                                    class="tooltipp">quick view</span></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-to-cart">
+                                                        <button class="add-to-cart-btn"
+                                                            onclick="addToCart('<%= item.id %>')"><i
+                                                                class="fa fa-shopping-cart"></i>
+                                                            add
+                                                            to cart</button>
+                                                    </div>
+                                                </div>
+                                                <!-- /product -->
+                                                <% }) %>
+
+                                        </div>
+                                        <div id="slick-nav-2" class="products-slick-nav"></div>
+                                    </div>
+                                    <!-- /tab -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Products tab & slick -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+
+            <!-- SECTION -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-4 col-xs-6">
+
+                            <div class="section-title">
+                                <h4 class="title">INTEL</h4>
+                                <div class="section-nav">
+                                    <div id="slick-nav-3" class="products-slick-nav"></div>
+                                </div>
+                            </div>
+
+                            <div class="products-widget-slick" data-nav="#slick-nav-3">
+                                <!-- ============================================== -->
+                                <% Intel.forEach((item,index)=>{ %>
+
+                                <div>
+                                    
+                                    <% Intel[index].forEach((item)=>{ %>
+                                        <div class="product-widget">
+                                            <div class="product-img" onclick="prodExplain('<%= item._id %>')"
+                                                style="cursor: pointer;">
+                                                <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category">
+                                                    <%= item.Genre %>
+                                                </p>
+                                                <h3 class="product-name"><a href="#">
+                                                        <%= item.Name %>
+                                                    </a></h3>
+                                                <h4 class="product-price">
+                                                    <%= item.Price %><del class="product-old-price">
+                                                            <%= item.Price %>
+                                                        </del>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <!-- /product widget -->
+
+                                </div>
+                                <!-- ===================================== -->
+                                <% }) %>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xs-6">
+                            <div class="section-title">
+                                <h4 class="title">RYZEN</h4>
+                                <div class="section-nav">
+                                    <div id="slick-nav-4" class="products-slick-nav"></div>
+                                </div>
+                            </div>
+
+                            <div class="products-widget-slick" data-nav="#slick-nav-4">
+                                <% Ryzen.forEach((item,index)=>{ %>
+
+                                <div>
+                                    <!-- product widget -->
+                                    <% Ryzen[index].forEach((item)=>{ %>
+                                        <div class="product-widget">
+                                            <div class="product-img" onclick="prodExplain('<%= item._id %>')"
+                                                style="cursor: pointer;">
+                                                <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category">
+                                                    <%= item.Genre %>
+                                                </p>
+                                                <h3 class="product-name"><a href="#">
+                                                        <%= item.Name %>
+                                                    </a></h3>
+                                                <h4 class="product-price">
+                                                    <%= item.Price %><del class="product-old-price">
+                                                            <%= item.Price %>
+                                                        </del>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <!-- /product widget -->
+
+                                </div>
+                                <% }) %>
+
+                               
+                            </div>
+                        </div>
+
+                        <div class="clearfix visible-sm visible-xs"></div>
+
+                        <div class="col-md-4 col-xs-6">
+                            <div class="section-title">
+                                <h4 class="title">LAPTOP'S</h4>
+                                <div class="section-nav">
+                                    <div id="slick-nav-5" class="products-slick-nav"></div>
+                                </div>
+                            </div>
+
+                            <div class="products-widget-slick" data-nav="#slick-nav-5" id="laptopSection">
+                                <% Laptop.forEach((item,index)=>{ %>
+                                    
+                                    
+                                <div>
+                                    <!-- product widget -->
+                                    <% Laptop[index].forEach((item)=>{ %>
+                                        <div class="product-widget">
+                                            <div class="product-img" onclick="prodExplain('<%= item._id %>')"
+                                                style="cursor: pointer;">
+                                                <img src="/productImages/<%= item.CoverImage %>" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category">
+                                                    <%= item.Genre %>
+                                                </p>
+                                                <h3 class="product-name"><a href="#">
+                                                        <%= item.Name %>
+                                                    </a></h3>
+                                                <h4 class="product-price">
+                                                    <%= item.Price %><del class="product-old-price">
+                                                            <%= item.Price %>
+                                                        </del>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        
+                                        <% }) %>
+                                            <!-- /product widget -->
+                                </div>
+
+                                <% }) %>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /SECTION -->
+
+
+            <!-- FOOTER -->
+            <footer id="footer">
+                <!-- top footer -->
+                <div class="section">
+                    <!-- container -->
+                    <div class="container">
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-md-3 col-xs-6">
+                                <div class="footer">
+                                    <h3 class="footer-title">About Us</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut.</p>
+                                    <ul class="footer-links">
+                                        <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+                                        <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
+                                        <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6">
+                                <div class="footer">
+                                    <h3 class="footer-title">Categories</h3>
+                                    <ul class="footer-links">
+                                        <li><a href="#">Hot deals</a></li>
+                                        <li><a href="#">Laptops</a></li>
+                                        <li><a href="#">Smartphones</a></li>
+                                        <li><a href="#">Cameras</a></li>
+                                        <li><a href="#">Accessories</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="clearfix visible-xs"></div>
+
+                            <div class="col-md-3 col-xs-6">
+                                <div class="footer">
+                                    <h3 class="footer-title">Information</h3>
+                                    <ul class="footer-links">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Orders and Returns</a></li>
+                                        <li><a href="#">Terms & Conditions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6">
+                                <div class="footer">
+                                    <h3 class="footer-title">Service</h3>
+                                    <ul class="footer-links">
+                                        <li><a href="#">My Account</a></li>
+                                        <li><a href="#">View Cart</a></li>
+                                        <li><a href="#">Wishlist</a></li>
+                                        <li><a href="#">Track My Order</a></li>
+                                        <li><a href="#">Help</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /container -->
+                </div>
+                <!-- /top footer -->
+
+                <!-- bottom footer -->
+
+                <!-- /bottom footer -->
+            </footer>
+            <!-- /FOOTER -->
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <script>
+                function prodExplain(id) {
+                    window.location.href = `/productExplain?prodId=${id}`
+                }
+
+                function addToWishList(id, from) {
+                    let button = document.getElementById('addToWishList' + id + from)
+                    if (button.className === 'fa fa-heart-o') {
+                        button.className = "fa fa-heart"
+                        button.style.color = 'red'
+                    } else {
+                        button.className = "fa fa-heart-o"
+                    }
+                    fetch(`/addToWishlist?prodId=${id}`).then((response) => {
+                        Swal.fire({
+                            title: (response.status === 200) ? 'ADDED TO WISHLIST' : 'ALREADY EXIST',
+                            text: (response.status === 200) ? 'Item added to wishlist !' : 'Item already on wishlist ',
+                            icon: (response.status === 200) ? 'success' : 'warning',
+                            customClass: 'larger-sweetalert',
+                            confirmButtonText: 'OK'
+                        });
+                    })
+                }
+
+                function addToCart(id) {
+                    fetch(`/addToCart?prodId=${id}`).then((response) => {
+                        let swalOptions = {
+                            customClass: 'larger-sweetalert', // Apply your custom class here
+                            confirmButtonText: 'OK',
+                        };
+
+                        if (response.status === 200) {
+                            swalOptions.title = 'ADDED TO CART';
+                            swalOptions.text = 'Item added to cart successfully!';
+                            swalOptions.icon = 'success';
+                        } else if (response.status === 202) {
+                            swalOptions.title = 'NOT ADDED TO CART';
+                            swalOptions.text = 'Maximum limit reached';
+                            swalOptions.icon = 'warning';
+                        } else if (response.status === 208) {
+                            swalOptions.title = 'NOT ADDED TO CART';
+                            swalOptions.text = 'To add to the cart, please login';
+                            swalOptions.icon = 'warning';
+                            swalOptions.showCancelButton = true;
+                            swalOptions.confirmButtonText = 'LOGIN';
+                            swalOptions.cancelButtonText = 'CANCEL';
+                        } else if (response.status === 207) { 
+                            swalOptions.title = " failed add to cart"
+                            swalOptions.text = "cannot add to cart because product out of stock"
+                            swalOptions.icon = 'warning';
+                        }
+
+                        Swal.fire(swalOptions).then((result) => {
+                            if (result.isConfirmed && response.status === 208) {
+                                location.href = '/login';
+                            }
+                        });
+                    });
+                }
+
+            </script>
+            <style>
+                /* Define a custom class for the SweetAlert size */
+                .larger-sweetalert {
+                    width: 500px;
+                    height: 350px;
+                    font-size: larger;
+                    /* Set your desired width */
+                }
+            </style>
+
+            <!-- jQuery Plugins -->
+            <script src="shopjs/bootstrap.min.js"></script>
+            <script src="shopjs/slick.min.js"></script>
+            <!-- <script src="shopjs/nouislider.min.js"></script> -->
+            <script src="shopjs/main.js"></script>
+
+</body>
+
+</html>

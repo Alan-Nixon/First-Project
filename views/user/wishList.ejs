@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV shopps</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="cartCss/bootstrap.min.css">
+    <link rel="stylesheet" href="cartCss/magnific-popup.css">
+    <link rel="stylesheet" href="cartCss/jquery-ui.css">
+    <link rel="stylesheet" href="cartCss/owl.carousel.min.css">
+    <link rel="stylesheet" href="cartCss/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="cartCss/aos.css">
+
+    <link rel="stylesheet" href="cartCss/style.css">
+
+</head>
+
+<body>
+
+    <header>
+        <%- include('navbar',{userExist:true}) %>
+    </header>
+    <!-- row -->
+
+    <% if(wishlist.length===0) { %>
+        <!-- cart Empty -->
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body cart">
+                            <div class="col-sm-12 empty-cart-cls text-center">
+                                <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
+                                    class="img-fluid mb-4 mr-3">
+                                <h3><strong>Your WishList is Empty</strong></h3>
+                                <h4>Add something to make me happy :)</h4>
+                                <a href="/shop" class="btn btn-warning cart-btn-transform m-3" data-abc="true">continue
+                                    shopping</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+            body {
+                background-color: #eee;
+                font-family: 'Calibri', sans-serif !important;
+            }
+
+            .mt-100 {
+                margin-top: 100px;
+
+            }
+
+
+            .card {
+                margin-bottom: 30px;
+                border: 0;
+                -webkit-transition: all .3s ease;
+                transition: all .3s ease;
+                letter-spacing: .5px;
+                border-radius: 8px;
+                -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+                box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+            }
+
+            .card .card-header {
+                background-color: #fff;
+                border-bottom: none;
+                padding: 24px;
+                border-bottom: 1px solid #f6f7fb;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+
+            .card-header:first-child {
+                border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+            }
+
+
+
+            .card .card-body {
+                padding: 30px;
+                background-color: transparent;
+            }
+
+            .btn-primary,
+            .btn-primary.disabled,
+            .btn-primary:disabled {
+                background-color: #4466f2 !important;
+                border-color: #4466f2 !important;
+            }
+        </style>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <% } else { %>
+
+
+            <div class="site-wrap">
+                <div class="site-section">
+                    <div class="container">
+                        <div class="row mb-5">
+                            <form class="col-md-12" method="post">
+                                <div class="site-blocks-table">
+                                    <h1>Welcome to <strong><b style="color: black;">wishlist</b></strong></h1>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="product-quantity">SL NO</th>
+                                                <th class="product-thumbnail">Image</th>
+                                                <th class="product-name">Product</th>
+                                                <th class="product-price">Price</th>
+                                                <th class="product-price">Type</th>
+                                                <th class="product-remove">Operations</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% wishlist.forEach((item,index)=>{ %>
+                                                <tr>
+                                                    <td>
+                                                        <%= index+1 %>
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        <img src="/productImages/<%= item.Details[0].CoverImage %>"
+                                                            alt="Image" style="width: 70px;" class="img-fluid">
+                                                    </td>
+                                                    <td class="product-name">
+                                                        <h2 class="h5 text-black">
+                                                            <%= item.Details[0].Name %>
+                                                        </h2>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.Details[0].Price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.Details[0].Genre %>
+                                                    </td>
+
+                                                    <td>
+                                                        <button type="button"
+                                                            onclick="if(confirm('are you want to remove the item ? ')){location.href = `/deleteFromWishlist?prodId=<%= item.Details[0]._id %>`}"
+                                                            class="btn btn-danger ">X</button>
+                                                            <% if(item.inCart) { %>
+                                                               
+                                                                <a style="color: white; "
+                                                                    type="button" class="btn btn-info disabled">Item in Cart</a>
+                                                                <% } else { %>
+                                                                    <a onclick="addToCart('<%= userId %>','<%= item.Details[0]._id %>')" style="color: white; "
+                                                                        type="button" class="btn btn-success">Add To
+                                                                        Cart</a>
+                                                                    <% } %>
+                                                      
+                                                        <a href="#moreDetails" type="button"
+                                                            onclick="moreDetails('<%= item.Details[0]._id %>')"
+                                                            class="btn btn-primary">More Details</a>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row mb-5">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <a href="/clearWishList?userId=<%= userId %>"
+                                            onclick="return confirm('Are you sure want to Delete Wishlist ? ')"
+                                            class="btn btn-danger btn-sm btn-block">Clear Wishlist</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button onclick="location.href = '/shop' "
+                                            class="btn btn-outline-primary btn-sm btn-block">CONTINUE SHOPPING</button>
+                                    </div>
+                                </div>
+                                <div id="moreDetails" class="row" style="display: none;">
+                                    <h2>Product Name : <span id="proName"></span></h2><br><br>
+                                    <div class="col-sm-6 mt-1 ">
+                                        <img src="" style="width: 100%;" id="CoverImageDetails" alt="image error">
+                                    </div>
+                                    <div class="col-sm-6 mt-1">
+                                        <p id="DescriptionMoreDetails"></p>
+                                        <button onclick="goProExplain()" class="btn btn-success">Click here</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-5">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-12 text-right border-bottom mb-5">
+                                                <h3 class="text-black h4 text-uppercase">WishList Totals</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-md-6">
+                                                <span class="text-black">Subtotal</span>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <strong class="text-black" id="totslBeforeDis">
+                                                    <%= Total %>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <% if(Discount !==0 ) { %>
+                                                <div class="col-md-6">
+                                                    <span class="text-black">Discount</span>
+                                                </div>
+
+                                                <div class="col-md-6 text-right">
+                                                    <strong class="text-black"><span style="color: red;">
+                                                            <%= Discount %>
+                                                        </span></strong>
+                                                </div>
+                                                <% } %>
+                                        </div>
+                                        <div class="row mb-5 mt-2">
+                                            <div class="col-md-6">
+                                                <span class="text-black">Total</span>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <strong class="text-black" id="grantTotal">
+                                                    <%= grantTotal %>
+                                                </strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                    onclick="window.location='/Checkout'">ADD ALL TO CART</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                #checkNow {
+                    color: blue;
+                }
+
+                #checkNow:hover {
+                    color: red;
+                }
+            </style>
+            <!-- row -->
+            <script>
+                function moreDetails(id) {
+                    document.getElementById('moreDetails').style.display = '';
+                    fetch('/moreDetails?proId=' + id).then((response) => response.json())
+                        .then((data) => {
+                            console.log(data);
+                            const product = data.product;
+                            this.id = data.product._id
+                            document.getElementById('proName').innerHTML = product.Name;
+                            document.getElementById('CoverImageDetails').src = '/productImages/' + product.CoverImage
+                            let line = (product.Genre !== 'Laptop') ? 'And its version is ' + product.Gen : ''
+                            document.getElementById('DescriptionMoreDetails').innerHTML = `This is a ${product.Name} ${product.Genre} <br>
+                            ${line} at this price range it  is a best ${product.Genre} and it is user freindly ${product.Price} is the price for this product if you want to know Detailed Explanation 
+                             for this product click the button below  `
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+                function goProExplain() {
+                    window.location.href = `/productExplain?prodId=${this.id}`
+                }
+                function addToCart(userId, prodId) {
+                    fetch(`/wishToCart?userId=${userId}&prodId=${prodId}`).then((response) => {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'added to cart !',
+                                text: 'product added to cart successfully.',
+                            }).then(()=>{
+                                location.reload()
+                            })
+                        }
+                    })
+                }
+            </script>
+
+            <script src="cartJs/jquery-3.3.1.min.js"></script>
+            <script src="cartJs/jquery-ui.js"></script>
+            <script src="cartJs/popper.min.js"></script>
+            <script src="cartJs/bootstrap.min.js"></script>
+            <script src="cartJs/owl.carousel.min.js"></script>
+            <script src="cartJs/jquery.magnific-popup.min.js"></script>
+            <script src="cartJs/aos.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+            <script src="cartJs/main.js"></script>
+
+            <% } %>
+
+
+</body>
+
+</html>

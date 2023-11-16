@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AV shopps</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="cartCss/bootstrap.min.css">
+    <link rel="stylesheet" href="cartCss/magnific-popup.css">
+    <link rel="stylesheet" href="cartCss/jquery-ui.css">
+    <link rel="stylesheet" href="cartCss/owl.carousel.min.css">
+    <link rel="stylesheet" href="cartCss/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="cartCss/aos.css">
+
+    <link rel="stylesheet" href="cartCss/style.css">
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <%- include('navbar',{userExist:true}) %>
+
+
+        <div class="site-wrap">
+            <div class="site-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mb-5 mb-md-0">
+                            <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                            <div class="p-3 p-lg-5 border">
+                                <p id="errorShow" style="color: red;font-weight: bolder;">Fill the details</p>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <label for="c_fname" class="text-black">Full Name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="<%= userDetails.FullName %>"
+                                            id="c_fname" name="c_fname">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <label for="c_companyname" class="text-black">Company Name </label>
+                                        <input type="text" class="form-control" id="c_companyname" name="c_companyname">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <label for="c_address" class="text-black">Address <span
+                                                class="text-danger">*</span></label>
+                                        <% if(userDetails?.Address?.HouseName) { %>
+                                            <input type="text" class="form-control"
+                                                value="<%= userDetails.Address.HouseName %>" id="c_address"
+                                                name="c_address" placeholder="Street address">
+                                            <% } else { %>
+                                                <input type="text" class="form-control" value="" id="c_address"
+                                                    name="c_address" placeholder="Street address">
+                                                <% } %>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="c_Appartment"
+                                        placeholder="Apartment, suite, unit etc. (optional)">
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="c_state_country" class="text-black">State<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="Kerala" id="c_state_country"
+                                            name="c_state_country">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="c_postal_zip" class="text-black">Pincode <span
+                                                class="text-danger">*</span></label>
+                                        <% if( userDetails?.Address?.Pincode){ %>
+                                            <input type="text" class="form-control"
+                                                value="<%= userDetails.Address.Pincode %>" id="c_Pincode"
+                                                name="c_postal_zip">
+                                            <% } else { %>
+                                                <input type="text" class="form-control" id="c_Pincode"
+                                                    name="c_postal_zip">
+                                                <% } %>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-5">
+                                    <input type="text" id="userid" value="<%= userid %>" style="display: none;">
+                                    <div class="col-md-6">
+                                        <label for="c_email_address" class="text-black">Email Address <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" value="<%= userDetails.Email %>"
+                                            id="c_email_address" name="c_email_address">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="c_phone" class="text-black">Phone <span
+                                                class="text-danger">*</span></label>
+                                        <% if(userDetails?.Address?.Phone) { %>
+                                            <input type="text" class="form-control"
+                                                value="<%= userDetails.Address.Phone %>" id="c_phone" name="c_phone"
+                                                placeholder="Phone Number">
+                                            <% } else { %>
+                                                <input type="text" class="form-control" value="" id="c_phone"
+                                                    name="c_phone" placeholder="Phone Number">
+                                                <% } %>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="c_order_notes" class="text-black">Order Notes</label>
+                                    <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5"
+                                        class="form-control" placeholder="Write your notes here..."></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row mb-5">
+                                <div class="col-md-12">
+                                    <h2 class="h3 mb-3 text-black">Your Order</h2>
+                                    <div class="p-3 p-lg-5 border">
+
+                                        <div class="" style="color: black;">
+                                            <h3>Select Payment Method</h3><br>
+                                            <p id="errorPayment" style="color: red;"></p>
+                                            <input type="radio" name="paymentMode" class="PaymentModeRadio" value="UPI">
+                                            <label for="paymentMode" class="PaymentMode">UPI</label><br>
+                                            <input type="radio" name="paymentMode" class="PaymentModeRadio"
+                                                value="Card">
+                                            <label for="paymentMode" class="PaymentMode">CREDIT / DEBIT
+                                                card</label><br>
+                                            <input type="radio" name="paymentMode" class="PaymentModeRadio"
+                                                value="NetBanking">
+                                            <label for="paymentMode" class="PaymentMode">NET BANKING</label><br>
+                                            <input type="radio" name="paymentMode" class="PaymentModeRadio"
+                                                value="WALLET">
+                                            <label for="paymentMode" class="PaymentMode">WALLET</label><br>
+                                            <input type="radio" name="paymentMode" class="PaymentModeRadio" value="COD">
+                                            <label for="paymentMode" class="PaymentMode">COD</label><br>
+                                        </div>
+                                        <br>
+
+                                        <table class="table site-block-order-table mb-5">
+                                            <thead>
+                                                <th>Product</th>
+                                                <th>Total</th>
+                                            </thead>
+                                            <tbody>
+                                                <div id="CompleteOrder" data-data='<%- JSON.stringify(orderDetails) %>'>
+                                                </div>
+                                                <% orderDetails.forEach((item)=>{ %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= item.Name %> <strong class="mx-2">x</strong>
+                                                                <% if (BUYNOW) { %>1<% } else { %>
+                                                                        <%= item.Quantity %>
+                                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (BUYNOW) { %>
+                                                                <%= Total %>
+                                                                    <% } else { %>
+                                                                        <%= item.Total %>
+                                                                            <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <tr>
+                                                            <% if (BUYNOW) { %>
+
+                                                                <% } else { %>
+                                                                    <td class="text-black font-weight-bold"><strong>Cart
+                                                                            Subtotal</strong>
+                                                                    </td>
+                                                                    <td class="text-black">
+                                                                        <%= Total %>
+                                                                    </td>
+
+                                                                    <% } %>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-black font-weight-bold">
+                                                                <strong>Offer</strong>
+                                                            </td>
+                                                            <td class="text-black" style="color: red;">-<%= offer %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-black font-weight-bold"><strong>Coupon
+                                                                    Discount</strong>
+                                                            </td>
+                                                            <td style="color: red;">-<%= Discount %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-black font-weight-bold"><strong>Delivery
+                                                                    Charges</strong>
+                                                            </td>
+                                                            <td style="color: red;">
+                                                                <%= DeliveryCharge %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-black font-weight-bold"><strong>Order
+                                                                    Total</strong>
+                                                            </td>
+                                                            <td class="text-black font-weight-bold"><strong>
+                                                                    <%= grantTotal %>
+                                                                </strong></td>
+                                                        </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-danger btn-lg py-3 btn-block"
+                                                onclick="window.location='/cart'">Go Back</button>
+                                            <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                onclick="CompleteValidate('<%= prodIds %>')">Place Order</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- </form> -->
+
+
+                </div>
+            </div>
+
+        </div>
+        <style>
+            .PaymentMode {
+                margin-left: 2%;
+            }
+
+            .PaymentModeRadio {
+                transform: scale(1.5);
+            }
+        </style>
+        <script src="/javascripts/orderDetails.js"></script>
+        <script src="cartJs/jquery-3.3.1.min.js"></script>
+        <script src="cartJs/jquery-ui.js"></script>
+        <script src="cartJs/popper.min.js"></script>
+        <script src="cartJs/bootstrap.min.js"></script>
+        <script src="cartJs/owl.carousel.min.js"></script>
+        <script src="cartJs/jquery.magnific-popup.min.js"></script>
+        <script src="cartJs/aos.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="cartJs/main.js"></script>
+
+</body>
+
+</html>

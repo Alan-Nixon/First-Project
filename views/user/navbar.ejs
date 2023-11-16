@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>AV shopps</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <header>
+        <!-- header inner -->
+        <div class="row head" style="width: 102%;">
+            <div class="col-sm-4">
+                <img src="/images/logo.webp" class="logoimage" alt="#">
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="divOfNav">
+                        <div class="col-sm-4  firstSection">
+                            <a href="/" class="linkOfNav">Home</a>
+                            <a href="/shop" class="linkOfNav">shop</a>
+
+                            <div class="dropdown ml-4">
+                                <button class="dropbtn">User</button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/getOrdersHistory">Order's history</a>
+                                    <a href="/getwishList">WishList</a>
+                                </div>
+                            </div>
+
+                            <a href="/cart" class="linkOfNav">Cart</a>
+                        </div>
+                        <div class="col-sm-5 searchdiv">
+                            <input type="text" class="inputsearch" placeholder="Search products" name="search"
+                                id="searchInput">
+                            <button onclick="undisableButton()" id="submitButton">
+                                <img src="/images/search_icon.png" alt="icon" /></button>
+
+                        </div>
+
+                        <div class="col-sm-3 lastSection">
+                            <% if(userExist){ %>
+                                <a href="/logout" class="linkOfNav">Logout</a>
+                                <% } else { %>
+                                    <a href="/login" class="linkOfNav">Login</a>
+                                    <% } %>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <div style="width: 100%;background-color: black;height: 15px;"></div>
+    </header>
+    <script>
+        function undisableButton() {
+            let submitButton = document.getElementById('submitButton');
+            let searchInput = document.getElementById('searchInput')
+            const pattern = /[^a-zA-Z]/;
+            if (searchInput.value !== '') {
+                if (!pattern.test(searchInput.value)) {
+                    if (searchInput.value.length < 10) {
+                        location.href = '/search?search=' + searchInput.value
+                    }
+                }
+            }
+        }
+
+    </script>
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .logoimage {
+            height: 50px;
+            margin-left: 30%;
+        }
+
+
+        .head {
+            font-family: poppins;
+            padding: 10px 0px;
+            background: url(../images/hea.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center center;
+        }
+
+        .searchdiv {
+            margin-top: 0.5%;
+            float: left;
+        }
+
+        .inputsearch {
+            float: left;
+            border-radius: 50px;
+            border: 1px solid white;
+            padding: 4px;
+            padding-left: 20px;
+            width: 300px;
+        }
+
+
+        #submitButton {
+            float: left;
+            margin-top: 1%;
+            margin-left: 3%;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .firstSection {
+            float: left;
+            margin-top: 1%;
+        }
+
+        .lastSection {
+            float: left;
+            margin-top: 1%;
+        }
+
+        .linkOfNav {
+            color: white;
+            font-weight: medium;
+            font-size: 1.01rem;
+            text-decoration: none;
+            margin-left: 9%;
+        }
+
+        .linkOfNav:hover {
+            color: white;
+        }
+
+        .divOfNav {
+            width: 100%;
+        }
+
+        .full {
+            margin-left: 30%;
+        }
+
+        .dropbtn {
+            color: white;
+            background-color: transparent;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: blue;
+            color: white;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+    <!-- end header inner -->
+</body>
+
+</html>

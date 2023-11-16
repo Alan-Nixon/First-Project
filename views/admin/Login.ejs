@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/Login.css' />
+</head>
+
+
+<body>
+    <section>
+        <div class="login-box">
+            <form action="" method="post">
+                <h2>Admin Login</h2>
+                <div class="err">
+                    <% if(otpErr){ %>
+                        <p id="Otperrorshow" style="color: red;" class="error">otp is not correct</p>
+
+                        <% } %>
+                            <p id="errorshow" style="color: red;" class="error"></p>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" value="alannixon2520@gmail.com" id="email" name="Email" class="inputBox"
+                        placeholder="Email" required>
+                </div>
+                <div class="input-box">
+                    <input type="password" value="alan@2520" id="Pass" name="Password" class="inputBox" required
+                        placeholder="password">
+                    <span><i onclick="Eyefunc()" style="cursor: pointer;" id="logo"
+                            class="fa fa-eye-slash icon"></i></span>
+                </div>
+                <button type="button" onclick="validateAndOtp()">Login</button>
+
+            </form>
+        </div>
+      
+
+        <div id="mode">
+            <div class="modal fade" id="adminLoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <span style="float: right;" id="closeButtonOfmodal">X</span>
+                        </button>
+                        <div class="modal-body">
+                            <div class="alert alert-success alert-dismissible">
+                                <strong>Success!</strong> OTP sent successfully
+                            </div>
+                            <div class="form-group">
+                                <label for="otpUser" class="col-form-label">Enter OTP here</label>
+                                <p style="color: red;" id="MainCounter">Enter otp in <span id="minute">2</span> :
+                                    <span id="second">59</span>
+                                </p>
+                                <form action="otpSend" method="Post">
+                                    <input type="text" id="otpUser" name="otp" placeholder="Enter OTP here"
+                                        class="form-control" style="margin-top: 16px;">
+                                    <div id="buttonDivSignup"></div>
+                                    <button></button>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: -16px;">Submit</button>
+                                    <p style="color: red;" id="conterIdPtag">resend otp in
+                                        <span id="counterResend">5</span>s
+                                    </p>
+                            </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </section>
+
+    <script src="/javascripts/adminFrontend.js"> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</body>
+
+</html>

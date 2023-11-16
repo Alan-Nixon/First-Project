@@ -1,0 +1,39 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#logo-img{
+    border-radius: 100%;
+    width: 50px;
+    margin-left: 50px;
+}
+
+#searchInput{
+    width: 250px;
+    height: 35px;
+    float: right !important;
+    margin-right: 10px !important;
+}
+
+#searchForm{
+    margin-right: 80px !important;
+}
+
+#head-AV{
+    margin-left: 2.5%;
+}
+
+#search-btn{
+    border: 1px solid black;
+    padding-top: 3px;
+    height: 33px;
+    color: black;
+}
+
+#search-btn:hover{
+    border: 1px solid none;
+    color: white !important;
+    background: none;
+}
+

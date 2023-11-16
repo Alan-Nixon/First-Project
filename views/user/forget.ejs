@@ -1,0 +1,175 @@
+
+
+    <!DOCTYPE html>
+    <!-- Coding By CodingNepal - codingnepalweb.com -->
+    <html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <title> AV Shopps </title>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <h2>Forgett Password</h2>
+            <form action="/forgotPassword" onsubmit="return ValidateForgetPassword()" method="post">
+                <div class="form-group">
+                    <% if(invalidOtp){ %>
+                        <p class="error" style="color: red;"></p>
+                        <% } %>
+                            <p id="forgeterrorShow" style="color: red;" ></p>
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="forgetEmail" value=""
+                                placeholder="Enter email" name="Email" required>
+                </div>
+                <div id="succesEmail" style="display: none;">
+                    <div class="form-group">
+                        <label for="pwd">new password</label>
+                        <input type="text" class="form-control" value="" id="forgettNewPassword" placeholder="Enter new password"
+                            name="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">OTP</label>
+                        <input type="text" class="form-control" value="" id="Password" placeholder="Enter otp"
+                            name="otp" required>
+                    </div>
+                    <input type="text" value="false" name="From" style="display:none;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+
+                <button type="button" onclick="forgettSendOtp()" id="sendOtpButton" class="btn btn-primary">Change now</button>
+
+            </form>
+
+
+        </div>
+
+
+        <script src="/javascripts/validateAndOtp.js"></script>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            body {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #4070f4;
+                margin: 0;
+                padding: 0;
+                background-image: url('https://img.freepik.com/premium-photo/wallpaper-with-red-black-lights_860528-249.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            .wrapper {
+                position: relative;
+                max-width: 430px;
+                width: 100%;
+                background: white;
+                padding: 34px;
+                border-radius: 6px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .wrapper h2 {
+                position: relative;
+                font-size: 22px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .wrapper h2::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                height: 3px;
+                width: 28px;
+                border-radius: 12px;
+            }
+
+            .wrapper form {
+                margin-top: 30px;
+            }
+
+            .wrapper form .input-box {
+                height: 52px;
+                margin: 18px 0;
+            }
+
+            form .input-box input {
+                height: 100%;
+                width: 100%;
+                outline: none;
+                padding: 0 15px;
+                font-size: 17px;
+                font-weight: 400;
+                color: #333;
+                border: 1.5px solid #C7BEBE;
+                border-bottom-width: 2.5px;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .input-box input:focus,
+            .input-box input:valid {
+                border-color: #4070f4;
+            }
+
+            form .policy {
+                display: flex;
+                align-items: center;
+            }
+
+            form h3 {
+                color: #707070;
+                font-size: 14px;
+                font-weight: 500;
+                margin-left: 10px;
+            }
+
+            .input-box.button input {
+                color: #fff;
+                letter-spacing: 1px;
+                border: none;
+                background: #4070f4;
+                cursor: pointer;
+            }
+
+            .input-box.button input:hover {
+                background: #0e4bf1;
+            }
+
+            form .text h3 {
+                color: #333;
+                width: 100%;
+                text-align: center;
+            }
+
+            form .text h3 a {
+                color: #4070f4;
+                text-decoration: none;
+            }
+
+            form .text h3 a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </body>
+
+    </html>

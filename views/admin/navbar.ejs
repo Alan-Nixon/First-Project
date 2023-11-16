@@ -1,0 +1,38 @@
+<header class="app-header" style="border-bottom: 1px solid black;">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <!-- Hamburger button for screens <= 1000px -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar brand or logo -->
+        <!-- Replace this with your logo or brand -->
+
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                        <i class="ti ti-bell-ringing"></i>
+                        <div class="notification bg-primary rounded-circle"></div>
+                    </a>
+                </li>
+                <div class="" style="width: 800px;height: 50px;padding-top: 3%;">
+                    <% if(dashboard){ %>
+                        <a href="admin/user-Managment" style="color: black;margin-left: 5%;"> <b> User Management</b></a>
+                        <a href="admin/product-Management" style="color: black;margin-left: 5%;"> <b> Product Management</b></a>
+                        <a href="admin/category-Management" style="color: black;margin-left: 5%;"> <b> Category Management</b></a>
+                        <a href="" style="color: black;margin-left: 5%;"> <b> Sales and Report </b></a>
+                        <a href="admin/logout" style="color: black;margin-left: 5%;"> <b> Logout</b></a>
+                    <% } else { %>
+                        <a href="user-Managment" style="color: black;margin-left: 5%;"> <b> User Management</b></a>
+                        <a href="product-Management" style="color: black;margin-left: 5%;"> <b> Product Management</b></a>
+                        <a href="category-Management" style="color: black;margin-left: 5%;"> <b> Category Management</b></a>
+                        <a href="" style="color: black;margin-left: 5%;"> <b> Sales and Report </b></a>
+                        <a href="logout" style="color: black;margin-left: 5%;"> <b> Logout</b></a>
+                    <% } %>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</header>

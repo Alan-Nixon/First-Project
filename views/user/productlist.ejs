@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/productlist.css">
+    <title>AV shopps</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/zoomExplain.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <%- include('navbar',userExist) %>
+
+            <h4 class="headText">showing result for <%= search %> . . .</h4>
+        <div class="row mainrow">
+            <div class="col-sm-3 col-lg-3  row sideBar">
+
+                <div class="sidebar">
+                    <div class="FILTERHEAD">
+                        <h3>CATEGORIES</h3>
+                    </div>
+                    <div class="byprice">
+                        <h5>BY PRICE</h5>
+                        <input type="radio" name="filter" value="MIN" class="inpCheck">
+                        <label for="radio">Min Price</label><br>
+                        <% filter.forEach((item)=>{ %>
+                            <input type="radio" name="filter" id="inpCheck_<%= item %>" value="<%= item %>"
+                                class="inpCheck">
+                            <label for="">
+                                <%= item %>
+                            </label> <br>
+                            <% }) %>
+                                <input type="radio" name="filter" value="MAX" class="inpCheck">
+                                <label for="radio">Max Price</label><br>
+                    </div>
+                    <div class="byprice">
+                        <h5>BY BRANDS</h5>
+                        <input type="checkbox" class="inpCheck">
+                        <label for="checkbox">Intel</label> <br>
+
+                        <input type="checkbox" class="inpCheck">
+                        <label for="checkbox">Ryzen</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-9 ml-auto row ">
+                <% products.forEach((item)=>{ %>
+                    <div class="col-sm-11 card mr-auto" style="background-color: aliceblue;"
+                        onclick="productExplain('<%= item._id %>')">
+                        <div class="row">
+                            <div class="col-sm-3 imgDiv" style="width: 150px;height: auto;">
+                                <img src="/productImages/<%= item.CoverImage %>" alt=""
+                                    style="max-width: 220px;height: 198px;background-color: aliceblue;">
+                            </div>
+                            <!-- Card 1 -->
+                            <div class="col-sm-9 card-body" style="float: left;">
+                                <h4 class="card-title">
+                                    <%= item.Name %>
+                                </h4>
+                                <p class="card-text">
+                                    <%= item.Description %>
+                                </p>
+                                <h3 style="margin-top: 2%;">
+                                    <%= item.Price %>
+                                </h3>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+            <script>
+                async function productExplain(prodId) {
+                    location.href = '/productExplain?prodId=' + prodId
+                }
+
+            </script>
+            <script>
+                // Get all radio input elements by their class
+                const radioBoxes = document.querySelectorAll(".inpCheck");
+
+                // Define a function to be called when any radio box is clicked
+                function radioClicked(event) {
+                    const selectedRadioBox = event.target.value;
+                    window.location.href = `/filterProducts?filter=${selectedRadioBox}`
+                }
+
+                // Add a click event listener to each radio input element
+                radioBoxes.forEach(radioBox => {
+                    radioBox.addEventListener("click", radioClicked);
+                });
+
+                document.getElementById('inpCheck_' + '<%= active %>').checked = true
+
+            </script>
+</body>
+
+</html>

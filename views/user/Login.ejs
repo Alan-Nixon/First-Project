@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV shopps</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel='stylesheet' href='/stylesheets/Login.css' />
+</head>
+
+
+<body>
+
+    <section>
+        <div class="login-box">
+            <form action="/login" method="post" onsubmit="return validate()">
+                <h2>Login</h2>
+                <div class="errorDiv">
+                    <% if(blocked){ %>
+                        <p class="error" style="color: red;">user blocked</p>
+                        <% } if(otpErr) { %>
+                            <p class="error">Invalid otp</p>
+                            <% } %>
+                                <p class="error" id="errorshow"></p>
+
+                </div>
+
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" id="email" value="<%= Email %>" name="Email" class="inputBox"
+                        placeholder="Email" required>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="Pass" value="<%= Password %>" name="Password" class="inputBox" required
+                        placeholder="password">
+                    <span><i onclick="Eyefunc()" style="cursor: pointer;" id="logo"
+                            class="fa fa-eye-slash icon"></i></span>
+                </div>
+
+                <div class="remember-forget">
+                    <a href="/forgotPassword">forgot password ?</a>
+
+                    <label for=""></label>
+                    <a href="/signup">New User sign up?</a>
+                </div>
+
+                <button onclick="OtpValidate()" class="mt-2" id="OtpButton" style="margin-top: 3%;" type="button"
+                    data-toggle="false" data-target="#exampleModal" data-whatever="@mdo">Login</button>
+                <center style="color: white;margin-top: 3%;">OR</center>
+                <button type="button" class="login-with-google-btn" onclick="location.href = '/auth/google?from=LOGIN'"
+                    style="margin-top: 3%;">
+                    Login in with Google
+                </button>
+            </form>
+        </div>
+
+    </section>
+
+    <style>
+        .login-with-google-btn {
+            border-radius: 25px;
+            transition: background-color .3s, box-shadow .3s;
+
+            padding: 8px 16px 12px 30px;
+            border: 1.5px solid #c2c8d0;
+            border-radius: 30px;
+            box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+
+            color: black;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+            background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+            background-color: white;
+            background-repeat: no-repeat;
+            background-position: 12px 11px;
+
+            &:hover {
+                box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+            }
+
+            &:active {
+                background-color: #eeeeee;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow:
+                    0 -1px 0 rgba(0, 0, 0, .04),
+                    0 2px 4px rgba(0, 0, 0, .25),
+                    0 0 0 3px #c8dafc;
+            }
+
+            &:disabled {
+                filter: grayscale(100%);
+                background-color: #ebebeb;
+                box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+                cursor: not-allowed;
+            }
+        }
+    </style>
+    <div id="mode">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                        <span style="float: right;" id="closeButtonOfmodal">X</span>
+                    </button>
+                    <div class="modal-body">
+                        <div class="alert alert-success alert-dismissible">
+                            <strong>Success!</strong> OTP sent successfully
+                        </div>
+                        <div class="form-group">
+                            <label for="otpUser" class="col-form-label">Enter OTP here</label>
+                            <p style="color: red;" id="MainCounter">Enter otp in <span id="minute">2</span> :
+                                <span id="second">59</span>
+                            </p>
+                            <div class="alert alert-primary" style="background-color: green;color: white;display: none;"
+                                id="resendotpSucces" role="alert">
+                                Resend Otp successfully
+                            </div>
+                            <form action="/login" method="Post">
+                                <input type="text" id="otpUser" name="otp" placeholder="Enter OTP here"
+                                    class="form-control" style="margin-top: 16px;">
+                                <div id="buttonDivSignup"></div>
+                                <button type="submit" class="btn btn-primary" style="margin-top: 16px;">Submit</button>
+                                <p style="color: red;" id="conterIdPtag">resend otp in
+                                    <span id="counterResend">5</span>s
+                                </p>
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <input type="text" id="tryLogin" value="<%= tryLogin %>" hidden>
+    <input type="text" id="pleaseSignup" value="<%= pleaseSignup %>" hidden>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6"></script>
+
+    <!-- Optional: Add SweetAlert2 styles for customization -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+  
+    <script>
+        if (document.getElementById('tryLogin').value !== "false") {
+            Swal.fire('Login Failed ', ' try login with email and password', 'warning');
+
+        } else if (document.getElementById('pleaseSignup').value !== "false") {
+            Swal.fire('Login failed!', 'You dont have an account please  sign up', 'warning');
+
+        }
+
+        $('#Pass').keyup((e) => { if (e.keyCode === 13) { $('#OtpButton').click() } })
+    </script>
+
+
+    <script src="/javascripts/validateAndOtp.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</body>
+
+</html>

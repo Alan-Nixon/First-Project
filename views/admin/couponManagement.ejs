@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/productManagement.css">
+    <title>AV admin</title>
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <%-include('sideBar',{dashboard:false}) %>
+                <!-- End Sidebar scroll-->
+        </aside>
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <%- include('navbar',{dashboard:false}) %>
+                <!--  Header End -->
+                <div class="container-fluid">
+                    <!--  Row 1 -->
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+                            <section>
+                                <div class="row">
+                                    <div class="row mt-5">
+                                        <div class="col-sm-12">
+                                            <h2>Coupon Management</h2>
+                                            <table class="table table-hover tm-table-small tm-product-table"
+                                                style="border: 1px solid black; border-radius: 5%;margin-top: 3%; overflow: hidden;">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="color: black; ">
+                                                            <h6>SL NO</h6>
+                                                        </th>
+
+                                                        <th scope="col" style="color: black;">
+                                                            <h6><b>COUPEN NAME</b></h6>
+                                                        </th>
+                                                        <th scope="col" style="color: black;">
+                                                            <h6><b>MIN PRICE</b></h6>
+                                                        </th>
+                                                        <th scope="col" style="color: black;text-align: center">
+                                                            <h6><b>DISCOUNT</b></h6>
+                                                        </th>
+                                                        <th scope="col" style="color: black;">
+                                                            <h6><b>EXPIRY DATE</b></h6>
+                                                        </th>
+                                                        <th scope="col" style="color: black;">
+                                                            <h6><b>OPERATIONS</b></h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <p id="errorIndex" style="color: red;margin-top: 1%;"></p>
+                                                <tbody>
+                                                    <% let sl=1; %>
+                                                        <% coupens.forEach((item, index)=> { %>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <%= sl %>
+                                                                </th>
+                                                                <td class="tm-product-name"
+                                                                    style="color: black;margin-left: -10px;">
+                                                                    <%= item.coupenName %>
+                                                                </td>
+                                                                <form action="EditCoupen" method="post">
+                                                                    <td class="" style="color: black;">
+                                                                        <input type="text" style="display: none;"
+                                                                            value="<%= item._id %>" name="id">
+                                                                        <input type="text" value="<%= item.Min %>"
+                                                                            name="Min" style="width: 50px;"
+                                                                            id="InlineMinRate<%= index %>" class="Edit">
+                                                                    </td>
+                                                                    <td class=""
+                                                                        style="color: black;text-align: center;">
+                                                                        <input type="text"
+                                                                            id="InlineDiscount<%= index %>"
+                                                                            value="<%= item.Discount %> %"
+                                                                            name="Discount" class="Edit"
+                                                                            style="width: 35px;">
+                                                                    </td>
+                                                                    <td style="color: black; ">
+                                                                        <i class="fa fa-minus"
+                                                                            onclick="IncDate(-1,'<%= item._id %>','<%= item.ExpiryDate %>')"
+                                                                            style="cursor: pointer"></i>
+                                                                        <span style="margin-left: 5%;">
+                                                                            <%= item.ExpiryDate %>
+                                                                        </span>
+                                                                        <i class="fa fa-plus"
+                                                                            onclick="IncDate(1,'<%= item._id %>','<%= item.ExpiryDate %>')"
+                                                                            style="margin-left: 5%;cursor: pointer;"></i>
+                                                                    </td>
+                                                                    <td style="color: black;">
+                                                                        <i class="fa fa-trash"
+                                                                            style="font-size: 25px;cursor: pointer;"
+                                                                            onclick="return deleteCoupen('<%= item._id %>')"></i>
+                                                                        <button class="btn btn-success ml-2"
+                                                                            style="margin-top: -10px;"
+                                                                            onclick="return validateInvale(document.getElementById('InlineDiscount<%= index %>'),document.getElementById('InlineMinRate<%= index %>'))"
+                                                                            type="submit">Save</button>
+                                                                    </td>
+                                                                </form>
+                                                            </tr>
+
+                                                            <% sl++; %>
+                                                                <% }) %>
+                                                </tbody>
+                                            </table>    
+                                            <a href="#createForm"
+                                                onclick="document.getElementById('createForm').style.display=''"
+                                                type="button" class="btn btn-primary form-control"
+                                                style="height: 40px;width: 80%;margin-left: 10%;color: white;">Add
+                                                coupons</a>
+                                        </div>
+                                    </div>
+                            </section>
+
+                            <section>
+                                <div class="row" style="display: none;" id="createForm">
+                                    <div class="heading" style="text-align:center;margin-top: 5%;">
+                                        <h3>Create Coupons</h3>
+                                    </div><br><br>
+                                    <div class="form m-auto" style="width: 80%;align-items: center;">
+                                        <strong><b id="CouponError" style="color: red;"></b></strong><br><br>
+                                        <form action="createCoupen" method="post">
+                                            <input type="text" placeholder="Enter the coupon name" id="CouponName"
+                                                class="form-control" name="coupenName" required>
+                                            <label for=""></label>
+                                            <input type="text" placeholder="Enter the days to Expire"
+                                                id="CouponExpiryDate" name="ExpiryDate" class="form-control" required>
+                                            <label for=""></label>
+                                            <input type="text" placeholder="Discount in percentage" id="CouponDiscount"
+                                                name="Discount" class="form-control" required>
+                                            <label for=""></label>
+                                            <input type="text" placeholder="Enter the min Rate" id="CouponMin"
+                                                name="Min" class="form-control" required>
+                                            <label for=""></label>
+                                            <input type="text" placeholder="Enter the max Discount" id="CouponMax"
+                                                name="Max" class="form-control" required>
+                                            <label for=""></label>
+                                            <button class="btn btn-primary mt-3" type="submit"
+                                                onclick="return couponValidate(document.getElementById('CouponError').innerHTML = '')"
+                                                style="float: right;">Submit</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </section>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+        </div>
+        <script>
+            function validateInvale(Dis, Min) {
+                let errorIndex = document.getElementById('errorIndex')
+                const num = Dis.value.replace('%', '')
+                if (num > 0 && !isNaN(num)) {
+                    if (Min.value > 0) {
+                        return true
+                    } else {
+                        errorIndex.innerHTML = "Invalid value, Enter a valid value"
+                    }
+                } else {
+                    errorIndex.innerHTML = "Invalid num, Enter a valid Discount"
+                    return false
+                }
+            }
+
+            function couponValidate() {
+                let CouponName = document.getElementById('CouponName')
+                let CouponExpiryDate = document.getElementById('CouponExpiryDate')
+                let CouponDiscount = document.getElementById('CouponDiscount')
+                let CouponMin = document.getElementById('CouponMin')
+                let CouponMax = document.getElementById('CouponMax')
+                let CouponError = document.getElementById('CouponError')
+
+                if (CouponName.value.length > 3) {
+                    if (!isNaN(CouponExpiryDate.value) && CouponExpiryDate.value > 0) {
+                        if (!isNaN(CouponDiscount.value) && CouponDiscount.value < 100 && CouponDiscount.value.length > 0) {
+                            if (!isNaN(CouponMin.value) && CouponMin.value > 0) {
+                                if (!isNaN(CouponMax.value) && CouponMax.value > 0 && CouponMax.value > (CouponDiscount.value * CouponMin.value) / 100) {
+                                    return true
+                                } else {
+                                    CouponError.innerHTML = "Invalid Max, Enter a valid MAXIMUM value"
+                                    return false
+                                }
+                            } else {
+                                CouponError.innerHTML = "Invalid Min value, Enter a valid Minimum value"
+                                return false
+                            }
+                        } else {
+                            CouponError.innerHTML = "Invalid Discount, Enter a valid Discount"
+                            return false
+                        }
+                    } else {
+                        CouponError.innerHTML = "Invalid Expiry, Enter a valid days "
+                        return false
+                    }
+                } else {
+                    CouponError.innerHTML = "Invalid Name, Enter a valid Email"
+                    return false
+                }
+            }
+        </script>
+        <style>
+            th,
+            td {
+                text-align: center;
+            }
+
+
+            /* styles.css */
+            .Edit[type="text"]:focus {
+                border: 1px solid black;
+                /* Border style when the input is focused */
+                outline: none;
+                /* Remove the default focus outline (optional) */
+            }
+
+            .Edit {
+                border: none;
+            }
+        </style>
+
+        <script>
+            function deleteCoupen(id) {
+                if (confirm("Are you sure want to delete ? ")) {
+                    window.location.href = `deleteCoupen?id=${id}`
+                } else {
+                    return false
+                }
+            }
+            function IncDate(inc, id, dateNow) {
+                window.location.href = `IncDate?Inc=${inc}&id=${id}&dateNow=${dateNow}`
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>AV shopps</title>
+</head>
+
+<body>
+    <%- include('navbar', { userExist: true }) %>
+        <section class="h-100">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="card" style="border-radius: 10px; border: 1px solid black; width: 100%;">
+                        <div class="card-header px-4 py-5">
+                            <h5 class="mb-0">Thanks for your Order, <span style="color: green;">
+                                    <%= OrderDetails.FullName %>
+                                </span>!</h5>
+                            <div style="float: right;">
+                                <a href="/invoice?orderId=<%= OrderDetails._id %>&from=$2b$10$gviVtGpDfqpsAsCkbx8xaukeIQDirbAk2vIJ0IhJROGzYHeHUERp2"
+                                    class="btn btn-success">Download Invoice</a>
+                                <button onclick="location.href = '/getOrdersHistory' " style="border-radius: 10%;"
+                                    class="btn btn-primary">Go To
+                                    History</button>
+                            </div> <br>
+                            <div>
+                                <h3><strong><b>
+                                            <%= OrderDetails.Status %>
+                                        </b></strong></h3>
+                            </div>
+                        </div>
+                        <div class="card-body p-4 mt-1">
+
+                            <% if (OrderDetails.Status==="Canceled" ) { %>
+                                <div class="progress" style="height: 6px; border-radius: 16px;">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: 100%; border-radius: 16px; background-color: red;"
+                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-around mb-1">
+                                    <p class="mt-1 mb-0 small ms-xl-5 blackText">
+                                        <% if(OrderDetails.CancelReason==='' ) { %>
+                                            <h4><strong><b>ORDER CANCELED</b></strong></h4>
+                                            <% } else { %>
+                                                <%= OrderDetails.CancelReason %>
+                                                    <% } %>
+                                    </p>
+                                </div>
+                                <% } else if(OrderDetails.Status==="Pending" ) { %>
+                                    <div class="progress" style="height: 10px; border-radius: 16px;">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: 100%; border-radius: 16px; background-color: green;"
+                                            aria-valuenow="<% OrderDetails.progressValue %>" aria-valuemin="0"
+                                            aria-valuemax="100">
+
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0  ms-xl-5 blackText"><strong><b
+                                                class="ml-1 mt-1">PENDING</b></strong></p>
+
+                                    <% } else { %>
+                                        <input type="text" value="<%= progressPercentage %>" hidden>
+                                        <div class="progress"
+                                            style="height: 8px;width: 90%;margin-left: 5%; border-radius: 16px;">
+                                            <div class="progress-bar bg-success" id="progressPercentage"
+                                                role="progressbar" style="border-radius: 16px;" aria-valuenow="65"
+                                                id="progressBar" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-around mb-1">
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">Pending</p>
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">order confirmed</p>
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">Packed</p>
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">shipped</p>
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">Out for delivery</p>
+                                            <p class="mt-1 mb-0  ms-xl-5 blackText">Delivered</p>
+                                        </div>
+                                        <% } %>
+                                            <div class="mt-5">
+                                                <% products.forEach((item,index)=> { %>
+                                                    <div class="card shadow-0 border mb-4">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    <img src="/productImages/<%= item.CoverImage %>"
+                                                                        class="img-fluid" alt="Phone">
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <p class="mb-0 blackText">
+                                                                        product Name : <strong><b>
+                                                                                <%= item.Name %>
+                                                                            </b></strong>
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <p class="mb-0  blackText">
+                                                                        Product Brand : <strong><b>
+                                                                                <%= item.Brand %>
+                                                                            </b></strong>
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <p class="mb-0 blackText">Product Genre :
+                                                                        <strong><b>
+                                                                                <%= item.Genre %>
+                                                                            </b></strong>
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <p class="mb-0 blackText">Product Quantity :
+                                                                        <strong><b>
+                                                                                <%= OrderDetails.Quantity[index] %>
+                                                                            </b></strong>
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                    <p class="mb-0  blackText">
+                                                                        Product Price : <strong><b>
+                                                                                <%= item.Price %>
+                                                                            </b></strong>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between pt-2 bg-dark">
+                                                <p class="fw-bold mb-0 ml-5 text-white">Order Details</p>
+                                                <p class="fw-bold mb-0 ml-5 text-white"><strong><b>
+                                                            <h3 style="color: white;">Operations</h3>
+                                                        </b></strong></p>
+                                                <p class="mb-0 text-white"><span class="fw-bold me-4 text-white">Sub
+                                                        Total</span> : <strong><b class="mr-3" style="color: white;">
+                                                            <%= OrderDetails.SubTotal %>
+                                                        </b></strong>
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between pt-2 mt-3">
+                                                <p class="mb-0 blackText">ORDER ID : <strong><b>
+                                                            <%= OrderDetails._id %>
+                                                        </b></strong>
+                                                </p>
+                                                <div style="margin-left: -1%;">
+                                                    <% if(OrderDetails.Returned===true) { %>
+                                                        <h3 style="color: red;">product returned</h3>
+                                                        <% } else if (OrderDetails.Canceled===true) { %>
+                                                            <h3 style="color: red;">product Canceled</h3>
+                                                            <% } else { %>
+
+                                                                <% if(OrderDetails.Status==="Order Confirmed" ||
+                                                                    OrderDetails.Status==="Pending" ||
+                                                                    OrderDetails.Status==="Packed" ){ %>
+                                                                    <a href="#CANCELDETAILS"
+                                                                        onclick="document.getElementById('CANCELDETAILS').style.display = '' "
+                                                                        class="btn btn-danger">Cancel
+                                                                        Order</a>
+                                                                    <% } else { %>
+                                                                        <button disabled style="cursor: not-allowed;"
+                                                                            class="btn btn-danger">Cancel
+                                                                            Order</button>
+                                                                        <% } %>
+
+                                                                            <% } %>
+                                                </div>
+                                                <p></p>
+                                                <p></p>
+                                                <p class="mb-0 blackText"><span class="fw-bolder me-4">Discount
+                                                        :</span>
+                                                    <span style="color: red;"><strong><b>- <%= OrderDetails.Discount %>
+                                                            </b></strong></span> <br>
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 blackText">Invoice Date : <strong><b>
+                                                            <%= OrderDetails.OrderDate %>
+                                                        </b></strong>
+                                                </p>
+
+                                                <div class="mt-2" style="width: 180px;">
+                                                    <% if (!OrderDetails.Returned && !OrderDetails.Canceled) { %>
+                                                        <% if (OrderDetails.Status==="Delivered" ) { %>
+                                                            <a href="#RETURNDETAILS" type="button"
+                                                                onclick="document.getElementById('RETURNDETAILS').style.display = ''"
+                                                                class="btn btn-warning">Return
+                                                                Order</a>
+                                                            <% } else { %>
+                                                                <button disabled type="button"
+                                                                    style="cursor: not-allowed;"
+                                                                    class="btn btn-warning">Return
+                                                                    Order</button>
+                                                                <% } %>
+                                                                    <% } %>
+                                                </div>
+                                                <p class="mt-1 blackText"><span class="fw-bold me-4">Delivery
+                                                        Charges :
+                                                    </span>
+                                                    <strong><b>
+                                                            <%= OrderDetails.DeliveryCharge %>
+                                                        </b></strong>
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-5">
+                                                <p class="mb-0 blackText">
+                                                    Payment Status : <strong><b><span
+                                                                style="color: red;">
+                                                                <%= OrderDetails.paymentStatus %><br>
+                                                            </span></b></strong>
+
+                                                    Payment Method : 
+                                                    <strong><b><span
+                                                        style="color: red;">
+                                                        <%= OrderDetails.paymentMethod %><br>
+                                                    </span></b></strong>
+                                                </p>
+
+                                                <p class="mt-2 blackText">You cannot cancel the order <br> if the order
+                                                    is shipped
+                                                    but you can
+                                                    return <br>
+                                                    If the order is not reached you cannot return the product
+                                                </p>
+
+                                                <p></p>
+
+                                            </div>
+                        </div>
+                        <div class="card-footer border-0 px-4 py-3"
+                            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                            <h4 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                                Total paid : &nbsp; <span class="h5 mb-0 ms-2 blackText">
+                                    <strong><b><%= OrderDetails.TotalPrice %></b></strong>
+                                </span></h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="CANCELDETAILS" style="height: 330px; display: none;">
+            <div class="row bg-dark">
+                <h1 style="text-align: center;margin-left: 40%;color: white;" class="mt-2"><strong><b>Cancel The
+                            Order</b></strong>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8 ml-5 mt-4">
+                    <form action="#" class="mt-5">
+                        <label for="input" style="color: black;">Type something ... </label>
+                        <p style="color: red;"><strong><b id="errorShowCANCEL"></b></strong></p>
+                        <input type="text" id="cancelReqUser" class="form-control"
+                            placeholder="Enter the reason for cancel the order">
+                        <button type="button"
+                            onclick="swalShow(document.getElementById('cancelReqUser').value,'<%= OrderDetails._id %>','CANCEL')"
+                            style="float: right;" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section id="RETURNDETAILS" style="height: 330px; display: none;">
+            <div class="row bg-dark">
+                <h1 style="text-align: center;margin-left: 40%;color: white;" class="mt-2"><strong><b>Return The
+                            Order</b></strong>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8 ml-5 mt-4">
+                    <form action="#" class="mt-5">
+                        <label for="input" style="color: black;">Type something ... </label>
+                        <p style="color: red;"><strong><b id="errorShowRETURN"></b></strong></p>
+                        <input type="text" id="orderReqUser" class="form-control"
+                            placeholder="Enter the reason for Return the order">
+                        <button type="button"
+                            onclick="swalShow(document.getElementById('orderReqUser').value,'<%= OrderDetails._id %>','RETURN')"
+                            style="float: right;" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <div id="progressBarColor" data-progress="<%= OrderDetails.Status %>"></div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            (() => {
+                let pro = document.getElementById('progressBarColor').getAttribute('data-progress')
+                let progress = document.getElementById('progressPercentage').style
+                if (pro === "Order Confirmed") {
+                    progress.width = '23%'
+                } else if (pro === "Packed") {
+                    progress.width = '43%'
+                } else if (pro === "Shipped") {
+                    progress.width = '60%'
+                } else if (pro === "Out for delivery") {
+                    progress.width = "80%"
+                } else if (pro === "Delivered") {
+                    progress.width = "100%"
+                }
+            })()
+            function swalShow(reason, id, From) {
+                let url = null
+                if (reason.length > 6) {
+
+                    fetch(url = '/reqForCancel?reason=' + reason + '&id=' + id + '&From=' + From)
+                        .then((response) => {
+                            if (response.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!', // Title of the success message
+                                    text: `Your ${From} Request is successful.`, // Additional message text
+                                    showConfirmButton: true, // Remove the "OK" button
+                                }).then(() => location.reload())
+                            } else {
+                                alert("cannot send request")
+                            }
+                        })
+
+                } else {
+                    document.getElementById('errorShow' + From).innerHTML = "Please Enter a reason "
+                }
+
+            }
+
+        </script>
+        <style>
+            .gradient-custom {
+                /* fallback for old browsers */
+                background: aliceblue;
+                /* background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1)) */
+            }
+
+            .blackText {
+                color: black;
+            }
+        </style>
+</body>
+
+</html>

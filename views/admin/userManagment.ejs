@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>AV admin</title>
+    <link rel="stylesheet" href="/stylesheets/user-Managment.css">
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <%-include('sideBar',{dashboard:false}) %>
+                <!-- End Sidebar scroll-->
+        </aside>
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            <%- include('navbar',{dashboard:false}) %>
+                <!--  Header End -->
+                <div class="container-fluid">
+                    <!--  Row 1 -->
+                    <div class="row">
+                        <!-- <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="background-color: green;" > -->
+                        <main class="table">
+                            <h1 class="headIng">User Managment</h1>
+                            <form class="search" action="search" method="post" style="margin-right: 35px;">
+                                <input type="text" class="searchBox"
+                                    style="border: 2px solid orange;border-radius: 15%;height: 40px;"
+                                    placeholder="Search user" name="search">
+                                <button type="submit" class="btn btn-primary">search</button>
+                            </form>
+                            <section class="table__body">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sl No</th>
+                                            <th> Name <span class="icon-arrow">&UpArrow;</span></th>
+                                            <th> Email <span class="icon-arrow">&UpArrow;</span></th>
+                                            <th> Admin <span class="icon-arrow">&UpArrow;</span></th>
+                                            <th> User status <span class="icon-arrow">&UpArrow;</span></th>
+                                            <th> Operation <span class="icon-arrow">&UpArrow;</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% let slNo=1 %>
+                                            <% users.forEach((users)=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= slNo%>
+                                                    </td>
+                                                    <td>
+                                                        <%= users.Name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= users.Email%>
+                                                    </td>
+                                                    <td> <strong>
+                                                            <%=users.IsAdmin%>
+                                                        </strong></td>
+                                                    <td>
+                                                        <p class="status <%=users.IsBlocked%>" id="<%= users._id%>">
+                                                            <%=users.IsBlocked%>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <a type="button" class="btn btn-danger update-button"
+                                                            style="text-decoration: none;"
+                                                            onclick="return deleteUser('<%= users._id%>')">
+                                                            <center>Delete</center>
+                                                        </a>
+                                                        <a href='block/?id=<%= users._id %>&status=<%=users.IsBlocked%>'
+                                                            id="blockEVent" style="text-decoration: none;"
+                                                            onclick="return blockUser('<%=users._id%>','<%= users.Name %>')"
+                                                            type="button" class="btn btn-warning update-button">
+                                                            <%if(users.IsBlocked==="Active"){%>
+                                                                <center id="button_<%= users._id%>">block
+                                                                </center>
+                                                                <%}else{%>
+                                                                    <center id="button_<%= users._id%>">
+                                                                        unblock
+                                                                    </center>
+                                                                    <% }%>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <% slNo++; %>
+                                                    <% }); %>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </main>
+                        <div>
+
+                            <nav aria-label="..." style="float: left;margin-left: 35%;">
+                                <ul class="pagination">
+                                    <% if(active1==='active' ) { %>
+                                        <li class="page-item disabled"><a class="page-link" href="nextUserPagecount='-10'&now=<%= skipUser %>&minus=true">Previous</a></li>
+                                        <% } else { %>
+                                            <li class="page-item"><a class="page-link" href="nextUserPage?now=<%= skipUser %>&minus=true">Previous</a></li>
+                                            <% } %>
+                                                <li class="page-item"><a class="page-link <%= active1 %>"
+                                                        href="nextUserPage?pageNo=1">1</a></li>
+                                                <li class="page-item "><a class="page-link <%= active2 %>"
+                                                        href="nextUserPage?pageNo=2">2</a></li>
+                                                <li class="page-item"><a class="page-link <%= active3 %>"
+                                                        href="nextUserPage?pageNo=3">3</a></li>
+                                                <li class="page-item"><a class="page-link " href="nextUserPage?now=<%= skipUser %>&minus=false">Next</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <script>
+        function blockUser(userid, name) {
+            let status = confirm(`Are you sure want to block the ${name} ? `)
+            if (status) {
+                let id = document.getElementById(userid)
+                let buttonId = document.getElementById("button_" + userid)
+                if (id.innerHTML === "blocked") {
+                    id.className = "status Active"
+                    id.innerHTML = "active"
+                    buttonId.innerHTML = "<center>block</center>"
+                } else {
+                    id.className = "status blocked"
+                    id.innerHTML = "blocked"
+                    buttonId.innerHTML = "<center>unblock</center>"
+                }
+            } else {
+                return false
+            }
+        }
+        function deleteUser(userId) {
+            let status = confirm("Are you sure want to delete ? ")
+            if (status) {
+                window.location.href = "delete/?id=" + userId
+            }
+        }
+    </script>
+
+</body>
+
+</html>

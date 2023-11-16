@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>AV admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+  <link rel="stylesheet" href="css/fontawesome.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/productManagement.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+</head>
+
+<body>
+  <style>
+
+  </style>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <%-include('sideBar',{dashboard:false}) %>
+        <!-- End Sidebar scroll-->
+    </aside>
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <%- include('navbar',{dashboard:false}) %>
+        <!--  Header End -->
+        <div class="container-fluid" style="background-color: aliceblue;">
+          <!--  Row 1 -->
+          <div class="row">
+
+            <div class="tm-product-table-container" style="margin-top: 40px;float: left;"
+              style="border: 1px solid black;">
+              <div class="headingPRO" style="float: left;">
+                <h2>Product Mangement</h2>
+              </div>
+              <div class="form" style="float: right;margin-top: 2%;">
+                <form class="productSearch" action="productSearch" method="post">
+                  <input type="text" class="searchBox"
+                    style="border: 2px solid orange;border-radius: 15%;height: 40px;padding-left : 15px;"
+                    placeholder="Search user" name="search">
+                  <button type="submit" class="btn btn-primary">search</button>
+                  <a href="#addProSec" id="OtpButton" type="button"
+                    onclick="document.getElementById('addProSec').style.display =  ''" class="btn  btn-success">add
+                    product</a>
+                </form>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <table class="table table-hover tm-table-small tm-product-table"
+                style="border: 1px solid black; border-radius: 5%; overflow: hidden;">
+                <thead>
+                  <tr>
+                    <th scope="col" style="color: black; width: 9%;">
+                      <h6>SL NO</h6>
+                    </th>
+                    <th scope="col" style="color: black; width: 9%; margin-left: -15px !important;">
+                      <h6><b>IMAGE</b></h6>
+                    </th>
+                    <th scope="col" style="color: black; width: 8%; margin-left: -10px !important;">
+                      <h6><b>Category</b></h6>
+                    </th>
+                    <th scope="col" style="color: black; width: 8%;">
+                      <h6><b>NAME</b></h6>
+                    </th>
+                    <th scope="col" style="color: black;">
+                      <h6><b>PRICE</b></h6>
+                    </th>
+                    <th scope="col" style="color: black;">
+                      <h6><b>GEN</b></h6>
+                    </th>
+                    <th scope="col" style="color: black;">
+                      <h6><b>STOCK</b></h6>
+                    </th>
+                    <th scope="col" style="color: black;">
+                      <h6><b>DESCRIPTION</b></h6>
+                    </th>
+                    <th scope="col" style="color: black;">
+                      <h6><b>&nbsp;&nbsp;&nbsp;EDIT</b></h6>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% products.forEach((product, index)=> { %>
+                    <tr>
+                      <th scope="row">
+                        <%= sl %>
+                      </th>
+                      <td class="tm-product-name" style="color: black;margin-left: -10px;">
+                        <img src="/productImages/<%= product.CoverImage %>" alt="" style="width: 50px; height: 50px;">
+                        <i class="fa fa-angle-up" id="iconDown<%= product._id %>"
+                          onclick="displayImageOther('<%= product._id %>')"
+                          style="font-size: 20px;cursor: pointer;"></i>
+                        <div class="" style="display: none;" id="ImageDiv<%= product._id %>">
+                          <% product.Images.forEach((item)=>{ %>
+                            <img src="/productImages/<%= item %>" alt="" style="width: 45px;">
+                            <% }) %>
+                        </div>
+
+                      </td>
+                      <td class="" style="color: black;">
+                        <%= product.Genre %>
+                      </td>
+                      <td class="" style="color: black;">
+                        <%= product.Name %>
+                      </td>
+                      <td style="color: black;">
+                        <%= product.Price %>
+                      </td>
+                      <td style="color: black; width: 10%;">
+                        <% if (product.Gen) { %>
+                          <%= product.Gen %>
+                            <% } %>
+                      </td>
+                      <td style="color: black;">
+                        <button type="button" class="btn btn-default btn-sm"
+                          onclick="stockINC(-1,'<%= product._id %>')">
+                          <span class="glyphicon glyphicon-minus-sign"></span>
+                        </button>
+                        <input type="text" value="<%= product.Stock %>" id="Stock<%= product._id %>"
+                          style="width: 25px; border: none; text-align: center;">
+                        <button type="button" class="btn btn-default btn-sm" onclick="stockINC(1,'<%= product._id %>')">
+                          <span class="glyphicon glyphicon-plus-sign"></span>
+                        </button>
+                      </td>
+                      <td style="color: black; width: 22%;">
+                        <%= product.Description %>
+                      </td>
+                      <td>
+                        <a href="deleteProduct?prodId=<%= product._id %>" type="button" class="btn btn-danger"
+                          onclick="return confirm('Are you sure want to delete the item ?')">Delete</a>
+                        <button onclick="getEditProDetails('<%= product._id %>')"
+                          class="btn btn-info">Edit</button>
+                      </td>
+                    </tr>
+
+                    <% sl++; %>
+                      <% }) %>
+                </tbody>
+              </table>
+
+              <nav aria-label="Page navigation example" style="text-align: center;">
+                <ul class="pagination">
+                  <% if (currentPage===0){ %>
+                    <li class="page-item">
+                      <a class="page-link pageno disabled" id="Previous"
+                        href="pageNumber?currentPage=<%= currentPage %>&inc=-5" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                    </li>
+                    <% } else { %>
+                      <li class="page-item">
+                        <a class="page-link pageno " id="Previous"
+                          href="pageNumber?currentPage=<%= currentPage %>&inc=-5" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                      </li>
+                      <% } %>
+                        <li class="page-item <%= active1 %>" id="pageNo1"><a class="page-link pageno"
+                            href="pageNumber?no=1" onclick="ChangeActive(1)">1</a></li>
+                        <li class="page-item <%= active2 %>" id="pageNo2"><a class="page-link pageno"
+                            href="pageNumber?no=2" onclick="ChangeActive(2)">2</a></li>
+                        <li class="page-item <%= active3 %>" id="pageNo3"><a class="page-link pageno"
+                            href="pageNumber?no=3" onclick="ChangeActive(3)">3</a></li>
+                        <li class="page-item">
+                          <a class="page-link pageno" href="pageNumber?currentPage=<%= currentPage %>&inc=+5"
+                            aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                </ul>
+              </nav>
+
+            </div>
+
+
+            
+
+            <div class="row" style="display: none;" id="addProSec">
+              <div class="mx-auto" style="background-color: white;width: 80%;">
+                <form action="createProduct" method="Post" enctype="multipart/form-data">
+
+                  <div class="form-group" style="text-align: center;">
+                    <label for="head" style="text-align: center;color: black;">
+                      <h3><strong><b>Add Detials</b></strong></h3>
+                    </label>
+
+                    <input type="text" id="otpUser" name="Name" class="form-control" placeholder="Enter the name"
+                      required>
+
+                    <input type="text" style="margin-top: 5%;" name="Brand" class="form-control"
+                      placeholder="Enter the brand Name" required>
+
+                    <input type="text" id="Genre" class="form-control" name="Genre" value="Processers"
+                      style="margin-top: 5%;height: 40px;" readonly>
+                    <select id="fruit" style="float: right;margin-top: -4%;margin-right: 3%;"
+                      onchange="insertValue(this)" name="fruit">
+                      <% categories.forEach((item)=>{ %>
+                        <option value="<%= item %>">
+                          <%= item %>
+                        </option>
+                        <% } ) %>
+                    </select>
+
+
+
+                    <input type="text" style="margin-top: 5%;" id="otpUser" name="Price" class="form-control" required
+                      placeholder="Enter the price">
+                    <div id="GenDiv">
+                      <input type="text" style="margin-top: 5%;" id="genOfProduct" name="Gen" class="form-control"
+                        required placeholder="Enter the gen">
+                    </div>
+
+                    <input type="text" style="margin-top: 5%;" id="otpUser" name="Stock" class="form-control" required
+                      placeholder="Enter the stock">
+                    <input type="text" style="margin-top: 5%;" id="otpUser" name="Description" required
+                      class="form-control" placeholder="Enter the description">
+                    <input type="text" name="specs" class="form-control" style="margin-top: 5%;"
+                      placeholder="enter the  specs" id="otpUser">
+                  </div>
+                  <div class="mt-4">
+                    <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;" required>
+                    <label for="imageInput" class="btn btn-secondary"
+                      style="padding: 5px 10px; cursor: pointer; border-radius: 5px;">Choose cover Image</label>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="row mt-5 " id="productUpdate" style="display: none;">
+              <div class="col-sm-1"></div>
+              <div class="col-sm-10">
+                <h2 style="text-align: center;"><strong><b>
+                      <ul>EDIT PRODUCT</ul>
+                    </b></strong></h2>
+                <p><strong><b id="ErrorUpdatePro" style="color: red;"> </b></strong></p>
+                <form action="updateProduct" method="post">
+                  <input type="text" name="prodId" value="" id="prodIdForUpdate" hidden>
+                  <label for="name">Name</label>
+                  <input type="text" placeholder="Enter the Name" name="Name" id="EditProName" required class="form-control"><br>
+                  <label for="">Price</label>
+                  <input type="text" placeholder="Enter the Price" name="Price" id="EditProPrice" required class="form-control"><br>
+                  <div id="GenUpdateProduct" style="display: none;">
+                    <label for="">Gen</label>
+                    <input type="text" placeholder="Enter the Gen" name="Gen" id="EditProGen" required class="form-control"><br>
+                  </div>
+                  <label for="">Stock</label>
+                  <input type="text" placeholder="Enter the Stock" name="Stock" id="EditProStock" required class="form-control"><br>
+                  <label for="">Description</label>
+                  <input type="text" placeholder="Enter the Description" name="Description" id="EditProDesc" required
+                    class="form-control"><br><br>
+                  <button type="submit" onclick="return ValidateEditPro()" class="btn btn-primary"
+                    style="float: right;">Save</button>
+                </form>
+                <form action="changeCoverImage" id="imageCoverUpdateForm" enctype="multipart/form-data" method="post">
+                  <input type="text" name="id" id="imageCoverUpdateFormid" hidden>
+                  <label for="">Change cover Image</label><br><br>
+                  <img src="" id="coverImageEdit" style="width: 40px;height: 40px;" alt=""><br><br>
+                  <input type="file" onchange="document.getElementById('saveImage').style.display = ''"
+                    class="form-control" accept="image/*" name="imageCoverUpdate" id="">
+                  <br><button type="submit" class="btn btn-info" style="display: none;" id="saveImage">Save
+                    Image</button>
+                </form>
+                <form action="addImagesOther" enctype="multipart/form-data" method="post">
+                  <input type="text" name="id" value="" id="ImagesOtherId" hidden>
+                  <label for="">Add sub images</label><br><br>
+                  <div id="OtherImage"></div><br>
+                  <input type="file" onchange="document.getElementById('otherImageButtonSave').style.display = ''"
+                    class="form-control" name="MultipleImages" multiple><br>
+                  <button type="submit" class="btn btn-info" id="otherImageButtonSave"
+                    style="display: none;">Save</button>
+                </form>
+              </div>
+              <div class="col-sm-1"></div>
+            </div>
+           
+
+
+            <div class="row mt-5">
+              <div class="mx-auto" style="width: 80%;">
+                <canvas id="canvas"></canvas>
+              </div>
+              <div id="buttotnSaveReset" class="mt-3" style="display: none;float: left;width: 90%;">
+                <input type="button" class="btn btn-success" onclick="showResult()" id="btnCrop" value="Crop"
+                  style="float: right;" />
+                <input type="button" class="btn btn-warning mr-3 " id="btnRestore" value="Restore"
+                  style="float: right;" />
+                <button class="btn btn-danger mr-3" onclick="location.reload()" style="float: right;">Clear</button>
+                <button class="btn btn-primary mr-3" onclick="" style="float: right;">Save without crop</button>
+              </div>
+            </div>
+            <div class="row">
+              <div id="result" style="display: none; width: 420px;border: 1px solid red;">
+                <img src="" alt="crop image" style="width: 400px;height: 90%;margin-top: 2%;" id="imageTag">
+              </div>
+              <button id="saveCropped" onclick="insertImage()" style="display: none;"
+                class="btn btn-secondary mt-4">Save
+                Image</button>
+              <p id="textToo" style="display: none;"><strong><b>change the image after saving it click choose
+                    image</b></strong></p>
+
+            </div>
+
+
+
+            <script src="/javascripts/productmanagementJS.js"></script>
+
+        
+            
+
+            <style>
+              .dropdown {
+                position: relative;
+                display: inline-block;
+              }
+
+              .pageno {
+                font-size: medium !important;
+              }
+
+              /* Style the dropdown content (hidden by default) */
+              .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+              }
+
+              /* Style the dropdown links */
+              .dropdown-content a {
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+              }
+
+              /* Change color of dropdown links on hover */
+              .dropdown-content a:hover {
+                display: relative;
+                background-color: #ddd;
+              }
+
+              /* Show the dropdown content when hovering over the dropdown button */
+              .dropdown:hover .dropdown-content {
+                display: block;
+              }
+
+              td {
+                font-size: 1.2rem;
+              }
+            </style>
+
+            <script src="/javascripts/adminFrontend.js"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+            <script src="../assets/js/dashboard.js"></script>
+          </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+</html>
